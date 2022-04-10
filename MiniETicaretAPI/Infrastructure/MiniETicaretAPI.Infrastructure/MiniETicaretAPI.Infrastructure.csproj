@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\MiniETicaretAPI.Application\MiniETicaretAPI.Application.csproj" />
+  </ItemGroup>
+
 </Project>

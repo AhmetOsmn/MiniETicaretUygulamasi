@@ -10,4 +10,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\MiniETicaretAPI.Application\MiniETicaretAPI.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\MiniETicaretAPI.Persistence\MiniETicaretAPI.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>

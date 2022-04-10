@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MiniETicaretAPI.Domain\MiniETicaretAPI.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
