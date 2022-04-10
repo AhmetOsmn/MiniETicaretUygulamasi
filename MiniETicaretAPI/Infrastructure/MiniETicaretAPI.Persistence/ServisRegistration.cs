@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MiniETicaretAPI.Application.Abstractions;
-using MiniETicaretAPI.Persistence.Concretes;
+using Microsoft.EntityFrameworkCore;
+using MiniETicaretAPI.Persistence.Contexts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,8 @@ namespace MiniETicaretAPI.Persistence
     {
         public static void AddPersistenceServices(this IServiceCollection services)
         {
-            // IProductService tetiklenirse, ProductService calistirilacak.
-            services.AddSingleton<IProductService, ProductService>();
+            services.AddDbContext<MiniETicaretAPIDbContext>(options => 
+                options.UseNpgsql(Configuration.ConnectionString));
         }
     }
 }

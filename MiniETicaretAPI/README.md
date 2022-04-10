@@ -1,3 +1,8 @@
 # API
 
-Proje Onion Arch. þeklinde geliþtirilecek.
+Proje Onion Arch. ï¿½eklinde geliï¿½tirilecek.
+
+# Paketler
+
+        EntityFrameworkCore
+        EntityFrameworkCore.Tools
