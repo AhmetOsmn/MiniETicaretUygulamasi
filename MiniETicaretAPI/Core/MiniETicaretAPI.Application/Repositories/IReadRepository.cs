@@ -13,9 +13,9 @@ namespace MiniETicaretAPI.Application.Repositories
         // IQueryable ile calistigimiz zaman verilere sorgular ile erismis oluruz.
         // IEnumerable ile calisirsak verilen once inmemory'e cekilir ve oradan erisim saglamis oluruz.
 
-        IQueryable<T> GetAll();
-        IQueryable<T> GetWhere(Expression<Func<T, bool>> method);
-        Task<T> GetSingleAsync(Expression<Func<T, bool>> method);
-        Task<T> GetByIdAsync(string id);
+        IQueryable<T> GetAll(bool tracking = true);
+        IQueryable<T> GetWhere(Expression<Func<T, bool>> method, bool tracking = true);
+        Task<T> GetSingleAsync(Expression<Func<T, bool>> method, bool tracking = true);
+        Task<T> GetByIdAsync(string id, bool tracking = true);
     }
 }
