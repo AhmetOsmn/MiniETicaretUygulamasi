@@ -18,16 +18,23 @@ namespace MiniETicaretAPI.API.Controllers
         }
 
         [HttpGet]
-        public async void Get()
+        public async Task Get()
         {
-            _productWriteRepository.AddRangeAsync(new()
+            await _productWriteRepository.AddRangeAsync(new()
             {
                 new() { Id = Guid.NewGuid(), Name = "Product 1", CreatedDate = DateTime.UtcNow, Stock = 10, Price = 100 },
                 new() { Id = Guid.NewGuid(), Name = "Product 2", CreatedDate = DateTime.UtcNow, Stock = 20, Price = 200 },
                 new() { Id = Guid.NewGuid(), Name = "Product 3", CreatedDate = DateTime.UtcNow, Stock = 30, Price = 300 },
                 new() { Id = Guid.NewGuid(), Name = "Product 4", CreatedDate = DateTime.UtcNow, Stock = 40, Price = 400 }
             });
-            await _productWriteRepository.SaveAsync();
+            var count = await _productWriteRepository.SaveAsync();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(string id)
+        {
+            var product = await _productReadRepository.GetByIdAsync(id);
+            return Ok(product);
         }
 
 
