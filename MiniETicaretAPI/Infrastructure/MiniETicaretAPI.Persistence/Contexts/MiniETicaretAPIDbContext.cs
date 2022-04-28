@@ -32,6 +32,7 @@ namespace MiniETicaretAPI.Persistence.Contexts
                 {
                     EntityState.Added => item.Entity.CreatedDate = DateTime.UtcNow, // nesne ilk defa ekleniyor ise createddate' e atama yap.
                     EntityState.Modified => item.Entity.UpdatedDate = DateTime.UtcNow,  // var olan nesne guncelleniyor ise updateddate' e atama yap.
+                    _ => DateTime.UtcNow
                 };
             }
 
