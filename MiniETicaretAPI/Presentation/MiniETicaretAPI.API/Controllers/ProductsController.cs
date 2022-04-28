@@ -35,12 +35,9 @@ namespace MiniETicaretAPI.API.Controllers
         }
 
         [HttpGet]
-        public async Task Get()
+        public async Task<IActionResult>Get()
         {
-            Order order = await _orderReadRepository.GetByIdAsync("05e846ac-1ff2-4ca7-b3b4-2e95dd45b8ed");
-            order.Address = "İstanbul";
-            await _orderWriteRepository.SaveAsync();
-
+            return Ok("Merhaba");
         }
 
     }
