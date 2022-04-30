@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MiniETicaretAPI.Application.Repositories;
+using MiniETicaretAPI.Application.RequestParameters;
 using MiniETicaretAPI.Application.ViewModels.Products;
 using MiniETicaretAPI.Domain.Entities;
 using System.Net;
@@ -25,9 +26,24 @@ namespace MiniETicaretAPI.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult>Get()
+        public async Task<IActionResult>Get([FromQuery]Pagination pagination)
         {
-            return Ok(_productReadRepository.GetAll(false));
+            var totalCount = _productReadRepository.GetAll(false).Count();
+            var products = _productReadRepository.GetAll(false).Skip(pagination.Page * pagination.Size).Take(pagination.Size).Select(p => new
+            {
+                p.Id,
+                p.Name,
+                p.Stock,
+                p.Price,
+                p.CreatedDate,
+                p.UpdatedDate
+            }).ToList();
+
+            return Ok(new
+            {
+                totalCount,
+                products
+            });
         }
 
         [HttpGet("{id}")]
@@ -39,11 +55,6 @@ namespace MiniETicaretAPI.API.Controllers
         [HttpPost]
         public async Task<IActionResult>Post(CreateProductVM model)
         {
-            if(ModelState.IsValid)
-            {
-
-            }
-
             await _productWriteRepository.AddAsync(new()
             {
                 Name = model.Name,
