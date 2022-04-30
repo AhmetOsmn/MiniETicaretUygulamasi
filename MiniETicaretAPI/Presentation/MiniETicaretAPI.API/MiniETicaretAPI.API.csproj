@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\MiniETicaretAPI.Application\MiniETicaretAPI.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\MiniETicaretAPI.Infrastructure\MiniETicaretAPI.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\MiniETicaretAPI.Persistence\MiniETicaretAPI.Persistence.csproj" />
   </ItemGroup>
 
