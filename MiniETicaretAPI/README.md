@@ -11,3 +11,6 @@ Proje Onion Arch. olarak geliştirilecek.
         dotnet add package Microsoft.Extensions.Configuration.Json
         dotnet add package Microsoft.Extensions.DependencyInjection.Abstractions
         dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
+        dotnet add package FluentValidation 
+        dotnet add package FluentValidation.AspNetCore 
+        dotnet add package FluentValidation.DependencyInjectionExtensions 
