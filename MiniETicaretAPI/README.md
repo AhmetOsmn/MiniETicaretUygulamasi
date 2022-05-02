@@ -1,6 +1,10 @@
 # API
 
-Proje Onion Arch. olarak geliştirilecek.
+Proje Onion Arch. olarak geliştiriliyor.
+
+![mimari](https://user-images.githubusercontent.com/44196434/166315197-52f0ebda-a939-48fd-9b06-20a07cfd0a48.png)
+
+
 
 # Paketler
 
