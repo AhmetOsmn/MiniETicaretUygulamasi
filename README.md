@@ -4,7 +4,7 @@ Merhaba, bu projede .Net Core + Angular teknolojileri ile birlikte bir e-ticaret
 
 Kullanılan teknolojiler:
 - Asp.Net Core
-- Angular
 - Entity Framework Core
+- Angular
 - PostgreSQL
 
