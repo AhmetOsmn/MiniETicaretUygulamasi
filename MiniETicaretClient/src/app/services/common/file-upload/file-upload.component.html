@@ -8,8 +8,10 @@
       ngx-file-drop-content-tmp
       let-openFileSelector="openFileSelector"
     >
-      {{options.explanation}}
-      <button type="button" (click)="openFileSelector()">Seç</button>
+      <div class="sec">
+        {{options.explanation}}
+        <button type="button" (click)="openFileSelector()">Seç</button>
+      </div>
     </ng-template>
   </ngx-file-drop>
   <div class="upload-table" *ngIf="files">
