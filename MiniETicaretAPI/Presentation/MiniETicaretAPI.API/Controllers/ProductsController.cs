@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MiniETicaretAPI.Application.Repositories;
 using MiniETicaretAPI.Application.RequestParameters;
+using MiniETicaretAPI.Application.Services;
 using MiniETicaretAPI.Application.ViewModels.Products;
 using MiniETicaretAPI.Domain.Entities;
 using System.Net;
@@ -15,20 +16,22 @@ namespace MiniETicaretAPI.API.Controllers
         private readonly IProductWriteRepository _productWriteRepository;
         private readonly IProductReadRepository _productReadRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        readonly IFileService _fileService;
 
         public ProductsController(
                                     IProductWriteRepository productWriteRepository,
                                     IProductReadRepository productReadRepository,
-                                    IWebHostEnvironment webHostEnvironment
-                                 )
+                                    IWebHostEnvironment webHostEnvironment, 
+                                    IFileService fileService)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
             this._webHostEnvironment = webHostEnvironment;
+            _fileService = fileService;
         }
 
         [HttpGet]
-        public async Task<IActionResult>Get([FromQuery]Pagination pagination)
+        public async Task<IActionResult> Get([FromQuery] Pagination pagination)
         {
             var totalCount = _productReadRepository.GetAll(false).Count();
             var products = _productReadRepository.GetAll(false).Skip(pagination.Page * pagination.Size).Take(pagination.Size).Select(p => new
@@ -49,13 +52,13 @@ namespace MiniETicaretAPI.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult>Get(string id)
+        public async Task<IActionResult> Get(string id)
         {
-            return Ok(await _productReadRepository.GetByIdAsync(id,false));
+            return Ok(await _productReadRepository.GetByIdAsync(id, false));
         }
 
         [HttpPost]
-        public async Task<IActionResult>Post(CreateProductVM model)
+        public async Task<IActionResult> Post(CreateProductVM model)
         {
             await _productWriteRepository.AddAsync(new()
             {
@@ -71,7 +74,7 @@ namespace MiniETicaretAPI.API.Controllers
         public async Task<IActionResult> Put(UpdateProductVM model)
         {
             Product product = await _productReadRepository.GetByIdAsync(model.Id);
-            product.Name = model.Name;  
+            product.Name = model.Name;
             product.Price = model.Price;
             product.Stock = model.Stock;
             await _productWriteRepository.SaveAsync();
@@ -89,29 +92,8 @@ namespace MiniETicaretAPI.API.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Upload()
         {
-            // wwwroot/resource/product-images
-            string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath,"resource/product-images");
-            
-            if(!Directory.Exists(uploadPath))
-            {
-                Directory.CreateDirectory(uploadPath);
-            }
-
-            Random random = new Random();
-
-            foreach (IFormFile file in Request.Form.Files)
-            {
-                string fullPath = Path.Combine(uploadPath, $"{random.Next()}{Path.GetExtension(file.FileName)}");
-
-                using FileStream fileStream = new(fullPath, FileMode.Create, FileAccess.Write, FileShare.None, 1024*1024, useAsync: false);
-                
-                await file.CopyToAsync(fileStream);
-                await fileStream.FlushAsync();
-            }
-
+            await _fileService.UploadAsync("resource/product-images", Request.Form.Files);
             return Ok();
         }
-
-
     }
 }
