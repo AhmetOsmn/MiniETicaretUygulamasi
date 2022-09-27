@@ -1,0 +1,55 @@
+﻿namespace MiniETicaretAPI.Infrastructure.Operations
+{
+    public static class NameOperation
+    {
+        // gelen isimin icerisindeki istenmeyen karakterleri duzenleyen metot.
+        public static string CharacterRegulatory(string name)
+         =>
+            name.Replace("\\","")
+                .Replace("!","")
+                .Replace("'","")
+                .Replace("^","")
+                .Replace("+","")
+                .Replace("%","")
+                .Replace("&","")
+                .Replace("/","")
+                .Replace("(","")
+                .Replace(")","")
+                .Replace("=","")
+                .Replace("<","")
+                .Replace(">","")
+                .Replace("£","")
+                .Replace("#","")
+                .Replace("$","")
+                .Replace("½","")
+                .Replace("{","")
+                .Replace("[","")
+                .Replace("]","")
+                .Replace("}","")
+                .Replace("?","")
+                .Replace("_","")
+                .Replace("\"","")
+                .Replace("*","")
+                .Replace("-","")
+                .Replace(".","-")
+                .Replace("Ö","O")
+                .Replace("ö","o")
+                .Replace("Ü","U")
+                .Replace("ü","u")
+                .Replace("ı","i")
+                .Replace("İ","i")
+                .Replace("ğ","g")
+                .Replace("Ğ","G")
+                .Replace("æ","")
+                .Replace("ß","")
+                .Replace("€","")
+                .Replace("₺","")
+                .Replace("|","")
+                .Replace("ş", "s")
+                .Replace("Ş", "S")
+                .Replace("ç", "c")
+                .Replace("Ç", "C")
+                .Trim();
+        
+    }
+}
