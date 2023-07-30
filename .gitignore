@@ -1,3 +1,44 @@
+# Visual Studio projeleri için genel .gitignore
+
+# Derlenmiþ dosyalar ve klasörler
+bin/
+obj/
+
+# VS kod tarayýcý dosyalarý
+.vs/
+
+# Resharper önbelleði
+_resharper*
+
+# UserOptions dosyalarý
+*.suo
+*.user
+*.sln.docstates
+
+# proje özellikleri için JSON dosyalarý
+*.json
+
+# Özel çalýþma dizinleri
+*.userprefs
+
+# Kullanýcýnýn profili ile ilgili veriler
+*.vsps
+
+# TestResults klasörü
+TestResults/
+
+# Sonuç dosyalarý
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# Swagger UI'ýn çalýþma zamaný içeriði
+wwwroot/swagger/*
+
+# Diðer özel dosya ve klasörler
+.vs/MiniETicaretAPI/*.json
+.vs/MiniETicaretAPI/*.sln
+
+
 ### Angular ###
 ## Angular ##
 # compiled output
@@ -452,3 +493,21 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,visualstudiocode,angular,dotnetcore
+/MiniETicaretAPI/Core/MiniETicaretAPI.Domain/obj/MiniETicaretAPI.Domain.csproj.nuget.dgspec.json
+/MiniETicaretAPI/Core/MiniETicaretAPI.Domain/obj/MiniETicaretAPI.Domain.csproj.nuget.g.props
+/MiniETicaretAPI/Core/MiniETicaretAPI.Domain/obj/Debug/net6.0/.NETCoreApp,Version=v6.0.AssemblyAttributes.cs
+/MiniETicaretAPI/Core/MiniETicaretAPI.Domain/obj/Debug/net6.0/MiniETicaretAPI.Domain.assets.cache
+/MiniETicaretAPI/Core/MiniETicaretAPI.Domain/obj/Debug/net6.0/MiniETicaretAPI.Domain.csproj.AssemblyReference.cache
+/MiniETicaretAPI/Core/MiniETicaretAPI.Domain/obj/Debug/net6.0/MiniETicaretAPI.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/MiniETicaretAPI/Core/MiniETicaretAPI.Domain/obj/project.assets.json
+/MiniETicaretAPI/Core/MiniETicaretAPI.Domain/obj/project.nuget.cache
+/MiniETicaretAPI/Core/MiniETicaretAPI.Application/obj/MiniETicaretAPI.Application.csproj.nuget.dgspec.json
+/MiniETicaretAPI/Core/MiniETicaretAPI.Application/obj/MiniETicaretAPI.Application.csproj.nuget.g.props
+/MiniETicaretAPI/Core/MiniETicaretAPI.Application/obj/project.assets.json
+/MiniETicaretAPI/Core/MiniETicaretAPI.Application/obj/project.nuget.cache
+/MiniETicaretAPI/Core/MiniETicaretAPI.Application/obj/Debug/net6.0/.NETCoreApp,Version=v6.0.AssemblyAttributes.cs
+/MiniETicaretAPI/Core/MiniETicaretAPI.Application/obj/Debug/net6.0/MiniETicaretAPI.Application.assets.cache
+/MiniETicaretAPI/Core/MiniETicaretAPI.Application/obj/Debug/net6.0/MiniETicaretAPI.Application.csproj.AssemblyReference.cache
+/MiniETicaretAPI/Core/MiniETicaretAPI.Application/obj/Debug/net6.0/MiniETicaretAPI.Application.GeneratedMSBuildEditorConfig.editorconfig
+/MiniETicaretAPI/.vs/MiniETicaretAPI/v17/.suo
+/MiniETicaretAPI/.gitignore
