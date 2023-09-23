@@ -7,7 +7,7 @@ namespace MiniETicaretAPI.Infrastructure.Filters
     {
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            if(!context.ModelState.IsValid)
+            if (!context.ModelState.IsValid)
             {
                 var errors = context.ModelState
                     .Where(x => x.Value.Errors.Any())

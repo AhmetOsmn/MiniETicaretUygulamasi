@@ -2,12 +2,7 @@
 using MiniETicaretAPI.Application.Repositories;
 using MiniETicaretAPI.Domain.Entities.Common;
 using MiniETicaretAPI.Persistence.Contexts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MiniETicaretAPI.Persistence.Repositories
 {
@@ -25,7 +20,7 @@ namespace MiniETicaretAPI.Persistence.Repositories
         public IQueryable<T> GetAll(bool tracking = true)
         {
             var query = Table.AsQueryable();
-            if(!tracking)
+            if (!tracking)
             {
                 query = query.AsNoTracking();
             }
@@ -55,7 +50,7 @@ namespace MiniETicaretAPI.Persistence.Repositories
         public async Task<T> GetByIdAsync(string id, bool tracking = true)
         {
             var query = Table.AsQueryable();
-            if(!tracking)
+            if (!tracking)
             {
                 query = Table.AsNoTracking();
             }

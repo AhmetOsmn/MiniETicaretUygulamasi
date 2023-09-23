@@ -2,7 +2,7 @@
 
 namespace MiniETicaretAPI.Application.Repositories
 {
-    public interface IOrderReadRepository : IReadRepository<Order>
+    public interface IInvoiceFileReadRepository : IReadRepository<InvoiceFile>
     {
     }
 }

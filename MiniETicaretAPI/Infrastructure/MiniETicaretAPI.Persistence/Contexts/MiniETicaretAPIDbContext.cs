@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MiniETicaretAPI.Domain.Entities;
 using MiniETicaretAPI.Domain.Entities.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MiniETicaretAPI.Persistence.Contexts
 {
@@ -15,8 +10,14 @@ namespace MiniETicaretAPI.Persistence.Contexts
         { }
 
         public DbSet<Product> Products { get; set; }
-        public DbSet<Order> Orders{ get; set; }
+        public DbSet<Order> Orders { get; set; }
         public DbSet<Customer> Customers { get; set; }
+
+        #region Table Per Hierarcy Yaklaşımı
+        public DbSet<Domain.Entities.File> Files { get; set; }
+        public DbSet<ProductImageFile> ProductImageFiles { get; set; }
+        public DbSet<InvoiceFile> InvoiceFiles { get; set; }
+        #endregion
 
         // repository'de kullanilan savechangesasync metodunu override ediyoruz.
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

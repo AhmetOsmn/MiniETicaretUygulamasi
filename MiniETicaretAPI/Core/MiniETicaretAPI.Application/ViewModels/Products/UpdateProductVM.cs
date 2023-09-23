@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MiniETicaretAPI.Application.ViewModels.Products
+﻿namespace MiniETicaretAPI.Application.ViewModels.Products
 {
     public class UpdateProductVM
     {

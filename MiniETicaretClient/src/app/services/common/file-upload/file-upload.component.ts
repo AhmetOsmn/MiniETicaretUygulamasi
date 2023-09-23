@@ -18,6 +18,8 @@ import {
 } from '../../ui/custom-toastr.service';
 import { DialogService } from '../dialog.service';
 import { HttpClientService } from '../http-client.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { SpinnerType } from 'src/app/base/base.component';
 
 @Component({
   selector: 'app-file-upload',
@@ -30,7 +32,8 @@ export class FileUploadComponent {
     private alertifyService: AlertifyService,
     private customToastrService: CustomToastrService,
     private dialogService: DialogService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private spinner: NgxSpinnerService
   ) {}
 
   public files: NgxFileDropEntry[];
@@ -49,6 +52,7 @@ export class FileUploadComponent {
       componentType: FileUploadDialogComponent,
       data: FileUploadDialogState.Yes,
       afterClosed: () => {
+        this.spinner.show(SpinnerType.BallAtom)
         this.httpClientService
           .post(
             {
@@ -62,7 +66,7 @@ export class FileUploadComponent {
           .subscribe(
             (data) => {
               const message: string = 'Dosyalar başarıyla yüklendi.';
-
+              this.spinner.hide(SpinnerType.BallAtom)
               if (this.options.isAdminPage) {
                 this.alertifyService.message(message, {
                   dismisssOthers: true,
@@ -75,10 +79,11 @@ export class FileUploadComponent {
                   position: ToastrPosition.TopRight,
                 });
               }
+             
             },
             (errorResponse: HttpErrorResponse) => {
               const message: string = 'Dosyalar yüklenemedi.';
-
+              this.spinner.hide(SpinnerType.BallAtom)
               if (this.options.isAdminPage) {
                 this.alertifyService.message(message, {
                   dismisssOthers: true,

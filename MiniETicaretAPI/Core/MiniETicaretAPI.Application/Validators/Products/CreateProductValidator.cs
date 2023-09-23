@@ -3,7 +3,7 @@ using MiniETicaretAPI.Application.ViewModels.Products;
 
 namespace MiniETicaretAPI.Application.Validators.Products
 {
-    public class CreateProductValidator:  AbstractValidator<CreateProductVM>
+    public class CreateProductValidator : AbstractValidator<CreateProductVM>
     {
         public CreateProductValidator()
         {

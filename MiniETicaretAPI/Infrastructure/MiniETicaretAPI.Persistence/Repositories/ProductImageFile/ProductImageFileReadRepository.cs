@@ -4,9 +4,9 @@ using MiniETicaretAPI.Persistence.Contexts;
 
 namespace MiniETicaretAPI.Persistence.Repositories
 {
-    public class OrderReadRepository : ReadRepository<Order>, IOrderReadRepository
+    public class ProductImageFileReadRepository : ReadRepository<ProductImageFile>, IProductImageFileReadRepository
     {
-        public OrderReadRepository(MiniETicaretAPIDbContext context) : base(context)
+        public ProductImageFileReadRepository(MiniETicaretAPIDbContext context) : base(context)
         {
         }
     }
