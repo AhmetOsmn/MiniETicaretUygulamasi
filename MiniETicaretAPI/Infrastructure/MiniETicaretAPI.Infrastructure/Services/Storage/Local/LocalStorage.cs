@@ -5,7 +5,7 @@ using System.IO;
 
 namespace MiniETicaretAPI.Infrastructure.Services.Storage.Local
 {
-    public class LocalStorage : ILocalStorage
+    public class LocalStorage : Storage, ILocalStorage
     {
         readonly IWebHostEnvironment _webHostEnvironment;
 
@@ -35,8 +35,9 @@ namespace MiniETicaretAPI.Infrastructure.Services.Storage.Local
 
             foreach (IFormFile file in files)
             {
-                await CopyFileAsync($"{uploadPath}\\{file.Name}", file);
-                datas.Add((file.Name, $"{path}\\{file.Name}"));
+                string newFileName = await FileRenameAsync(uploadPath, file.FileName, HasFile);
+                await CopyFileAsync($"{uploadPath}\\{newFileName}", file);
+                datas.Add((newFileName, $"{path}\\{newFileName}"));
             }
             
             return datas;

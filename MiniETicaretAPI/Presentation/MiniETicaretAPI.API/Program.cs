@@ -1,20 +1,19 @@
 using FluentValidation.AspNetCore;
 using MiniETicaretAPI.Application.Validators.Products;
 using MiniETicaretAPI.Infrastructure;
-using MiniETicaretAPI.Infrastructure.Enums;
 using MiniETicaretAPI.Infrastructure.Filters;
+using MiniETicaretAPI.Infrastructure.Services.Storage.Azure;
+using MiniETicaretAPI.Infrastructure.Services.Storage.Local;
 using MiniETicaretAPI.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 builder.Services.AddPersistenceServices();
 builder.Services.AddInfrastructureServices();
 
-//builder.Services.AddStorage<LocalStorage>();
-builder.Services.AddStorage(StorageType.Local);
-
-//builder.Services.AddStorage(StorageType.Azure);
-
+builder.Services.AddStorage<LocalStorage>();
+//builder.Services.AddStorage(StorageType.Local);
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
     policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod()

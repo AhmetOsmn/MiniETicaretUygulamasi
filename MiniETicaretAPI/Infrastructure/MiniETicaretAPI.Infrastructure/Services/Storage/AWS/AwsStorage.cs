@@ -3,7 +3,7 @@ using MiniETicaretAPI.Application.Abstactions.Storage.AWS;
 
 namespace MiniETicaretAPI.Infrastructure.Services.Storage.AWS
 {
-    public class AwsStorage : IAwsStorage
+    public class AwsStorage : Storage, IAwsStorage
     {
         public Task DeleteAsync(string pathOrContainerName, string fileName)
         {

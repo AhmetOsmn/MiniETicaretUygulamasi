@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MiniETicaretAPI.Application.Abstactions.Storage;
-using MiniETicaretAPI.Application.Abstactions.Storage.Local;
 using MiniETicaretAPI.Application.Repositories;
 using MiniETicaretAPI.Application.RequestParameters;
 using MiniETicaretAPI.Application.ViewModels.Products;
@@ -14,39 +13,20 @@ namespace MiniETicaretAPI.API.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductWriteRepository _productWriteRepository;
-        private readonly IProductReadRepository _productReadRepository;
-        private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IFileWriteRepository _fileWriteRepository;
-        private readonly IFileReadRepository _fileReadRepository;
-        private readonly IProductImageFileReadRepository _productImageFileReadRepository;
-        private readonly IProductImageFileWriteRepository _productImageFileWriteRepository;
-        private readonly IInvoiceFileReadRepository _invoiceFileReadRepository;
-        private readonly IInvoiceFileWriteRepository _invoiceFileWriteRepository;
+        private readonly IProductReadRepository _productReadRepository;    
         private readonly IStorageService _storageService;
+        private readonly IProductImageFileWriteRepository _productImageFileWriteRepository;
 
         public ProductsController(
             IProductWriteRepository productWriteRepository,
             IProductReadRepository productReadRepository,
-            IWebHostEnvironment webHostEnvironment,
-            IFileWriteRepository fileWriteRepository,
-            IFileReadRepository fileReadRepository,
-            IProductImageFileReadRepository productImageFileReadRepository,
-            IProductImageFileWriteRepository productImageFileWriteRepository,
-            IInvoiceFileReadRepository invoiceFileReadRepository,
-            IInvoiceFileWriteRepository invoiceFileWriteRepository,
-            IStorageService storageService
-        )
+            IStorageService storageService,
+            IProductImageFileWriteRepository productImageFileWriteRepository)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
-            this._webHostEnvironment = webHostEnvironment;
-            _fileWriteRepository = fileWriteRepository;
-            _fileReadRepository = fileReadRepository;
-            _productImageFileReadRepository = productImageFileReadRepository;
-            _productImageFileWriteRepository = productImageFileWriteRepository;
-            _invoiceFileReadRepository = invoiceFileReadRepository;
-            _invoiceFileWriteRepository = invoiceFileWriteRepository;
             _storageService = storageService;
+            _productImageFileWriteRepository = productImageFileWriteRepository;
         }
 
         [HttpGet]
@@ -111,9 +91,8 @@ namespace MiniETicaretAPI.API.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Upload()
         {
-            var datas = await _storageService.UploadAsync("resource/files", Request.Form.Files);
+            var datas = await _storageService.UploadAsync("files", Request.Form.Files);
 
-            // product image file test
             await _productImageFileWriteRepository.AddRangeAsync(datas.Select(data => new ProductImageFile()
             {
                 FileName = data.fileName,
@@ -122,28 +101,6 @@ namespace MiniETicaretAPI.API.Controllers
             }).ToList());
 
             await _productImageFileWriteRepository.SaveAsync();
-
-            // invoice file test
-            //await _invoiceFileWriteRepository.AddRangeAsync(datas.Select(data => new InvoiceFile()
-            //{
-            //    FileName = data.fileName,
-            //    Path = data.path,
-            //    Price = new Random().Next()
-            //}).ToList());
-
-            // file test
-            //await _fileWriteRepository.AddRangeAsync(datas.Select(data => new Domain.Entities.File()
-            //{
-            //    FileName = data.fileName,
-            //    Path = data.path
-            //}).ToList());
-
-            //await _fileWriteRepository.SaveAsync();
-
-            // read testleri
-            //var data1 = _fileReadRepository.GetAll(false); // bütün file'lar gelir
-            //var data2 = _productImageFileReadRepository.GetAll(false); // sadece product image file'lar gelir
-            //var data3 = _invoiceFileReadRepository.GetAll(false); // sadece invoice file'lar gelir
 
             return Ok();
         }
