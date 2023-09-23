@@ -18,7 +18,7 @@ namespace MiniETicaretAPI.Infrastructure.Services.Storage.Azure
         public async Task DeleteAsync(string containerName, string fileName)
         {
             _blobContainerClient = GetBlobContainerClientWithContainerName(containerName);
-            BlobClient blobClient =  _blobContainerClient.GetBlobClient(fileName);
+            BlobClient blobClient = _blobContainerClient.GetBlobClient(fileName);
             await blobClient.DeleteAsync();
         }
 
@@ -47,7 +47,7 @@ namespace MiniETicaretAPI.Infrastructure.Services.Storage.Azure
 
                 BlobClient blobClient = _blobContainerClient.GetBlobClient(newFileName);
                 await blobClient.UploadAsync(file.OpenReadStream());
-                datas.Add((newFileName, containerName));
+                datas.Add((newFileName, $"{containerName}/{newFileName}"));
             }
 
             return datas;

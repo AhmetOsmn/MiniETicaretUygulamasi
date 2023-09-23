@@ -15,7 +15,7 @@ namespace MiniETicaretAPI.Infrastructure
             serviceCollection.AddScoped<IStorageService, StorageService>();
         }
 
-        public static void AddStorage<T>(this IServiceCollection serviceCollection) where T: Storage, IStorage
+        public static void AddStorage<T>(this IServiceCollection serviceCollection) where T : Storage, IStorage
         {
             serviceCollection.AddScoped<IStorage, T>();
         }
@@ -31,7 +31,7 @@ namespace MiniETicaretAPI.Infrastructure
                     break;
                 case StorageType.AWS:
                     serviceCollection.AddScoped<IStorage, AwsStorage>();
-                    break;                    
+                    break;
                 default:
                     serviceCollection.AddScoped<IStorage, LocalStorage>();
                     break;

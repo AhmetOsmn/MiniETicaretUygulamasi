@@ -64,7 +64,7 @@ namespace MiniETicaretAPI.Infrastructure.Services.Storage
                 }
 
                 if (hasFileMethod(pathOrContainerName, newFileName))
-                    return await FileRenameAsync(pathOrContainerName, newFileName, hasFileMethod , false);
+                    return await FileRenameAsync(pathOrContainerName, newFileName, hasFileMethod, false);
 
                 else
                     return newFileName;

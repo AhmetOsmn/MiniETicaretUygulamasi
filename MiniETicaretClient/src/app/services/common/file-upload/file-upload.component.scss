@@ -1,20 +1,17 @@
 .center{
     border: 1px solid #ccc;;  
     padding: 10px;
-}
-.sec {
-    max-width: 175px;
-    padding: 20px;
     display: flex;
-    justify-content: center;
     flex-direction: column;
-    // background: red;
-    justify-content: space-between;
-
+    align-items: center;
+    justify-content: center;
+}
+.sec {    
+    padding: 20px;
     button{
         border-radius: 5px;
         border: 1px solid #ccc;
         padding: 5px;
-        background: rgb(209, 143, 143);
+        background: rgb(108, 81, 204);
     }
 }

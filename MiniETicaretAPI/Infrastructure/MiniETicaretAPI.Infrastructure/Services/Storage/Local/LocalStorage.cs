@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using MiniETicaretAPI.Application.Abstactions.Storage.Local;
-using System.IO;
 
 namespace MiniETicaretAPI.Infrastructure.Services.Storage.Local
 {
@@ -14,11 +13,11 @@ namespace MiniETicaretAPI.Infrastructure.Services.Storage.Local
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task DeleteAsync(string path, string fileName) => File.Delete($"{path}\\{fileName}");        
+        public async Task DeleteAsync(string path, string fileName) => File.Delete($"{path}\\{fileName}");
 
         public List<string> GetFiles(string path)
         {
-            DirectoryInfo directoryInfo =new (path);
+            DirectoryInfo directoryInfo = new(path);
             return directoryInfo.GetFiles().Select(file => file.Name).ToList();
         }
 
@@ -39,7 +38,7 @@ namespace MiniETicaretAPI.Infrastructure.Services.Storage.Local
                 await CopyFileAsync($"{uploadPath}\\{newFileName}", file);
                 datas.Add((newFileName, $"{path}\\{newFileName}"));
             }
-            
+
             return datas;
         }
 

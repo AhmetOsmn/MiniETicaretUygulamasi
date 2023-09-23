@@ -34,7 +34,15 @@
     <ng-container matColumnDef="edit">
       <th mat-header-cell *matHeaderCellDef width="30">Edit</th>
       <td mat-cell *matCellDef="let element">
-        <img width="25" height="25" src="../../../../../assets/edit.png" />
+        <img style="cursor:pointer" width="25" height="25" src="../../../../../assets/edit.png" />
+      </td>
+    </ng-container>
+
+    <!-- Photos Column -->
+    <ng-container matColumnDef="photos">
+      <th mat-header-cell *matHeaderCellDef width="30">Photos</th>
+      <td mat-cell *matCellDef="let element">
+        <img style="cursor:pointer" width="25" height="25" (click)="addProductImages(element.id)" src="../../../../../assets/foto.png" />
       </td>
     </ng-container>
 

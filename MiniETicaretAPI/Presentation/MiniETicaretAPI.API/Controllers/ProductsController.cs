@@ -13,7 +13,7 @@ namespace MiniETicaretAPI.API.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductWriteRepository _productWriteRepository;
-        private readonly IProductReadRepository _productReadRepository;    
+        private readonly IProductReadRepository _productReadRepository;
         private readonly IStorageService _storageService;
         private readonly IProductImageFileWriteRepository _productImageFileWriteRepository;
 
@@ -89,15 +89,18 @@ namespace MiniETicaretAPI.API.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Upload()
+        public async Task<IActionResult> Upload(string id)
         {
-            var datas = await _storageService.UploadAsync("files", Request.Form.Files);
+            List<(string fileName, string pathOrContainerName)> datas = await _storageService.UploadAsync("photo-images", Request.Form.Files);
+
+            Product product = await _productReadRepository.GetByIdAsync(id);
 
             await _productImageFileWriteRepository.AddRangeAsync(datas.Select(data => new ProductImageFile()
             {
                 FileName = data.fileName,
                 Path = data.pathOrContainerName,
-                Storage = _storageService.StorageName
+                Storage = _storageService.StorageName,
+                Products = new List<Product>() { product }
             }).ToList());
 
             await _productImageFileWriteRepository.SaveAsync();
