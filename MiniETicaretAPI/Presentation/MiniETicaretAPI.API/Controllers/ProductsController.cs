@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MiniETicaretAPI.Application.Abstactions.Storage;
 using MiniETicaretAPI.Application.Repositories;
 using MiniETicaretAPI.Application.RequestParameters;
@@ -16,17 +17,20 @@ namespace MiniETicaretAPI.API.Controllers
         private readonly IProductReadRepository _productReadRepository;
         private readonly IStorageService _storageService;
         private readonly IProductImageFileWriteRepository _productImageFileWriteRepository;
+        private readonly IConfiguration _configuration;
 
         public ProductsController(
             IProductWriteRepository productWriteRepository,
             IProductReadRepository productReadRepository,
             IStorageService storageService,
-            IProductImageFileWriteRepository productImageFileWriteRepository)
+            IProductImageFileWriteRepository productImageFileWriteRepository,
+            IConfiguration configuration)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
             _storageService = storageService;
             _productImageFileWriteRepository = productImageFileWriteRepository;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -106,6 +110,34 @@ namespace MiniETicaretAPI.API.Controllers
             await _productImageFileWriteRepository.SaveAsync();
 
             return Ok();
+        }
+
+        [HttpGet("[action]/{id}")]
+        public async Task<IActionResult> GetProductImages(string id)
+        {
+            Product? product = await _productReadRepository.Table
+                .Include(p => p.ProductImageFiles)
+                .FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));            
+
+            return Ok(product.ProductImageFiles.Select(p => new
+            {
+                Path = $"{_configuration["BaseStorageUrl"]}/{p.Path}",
+                p.FileName,
+                p.Id
+            }));
+        }
+
+        [HttpDelete("[action]/{productId}")]
+        public async Task<IActionResult> DeleteProductImage(string productId, string imageId)
+        {
+            Product? product = await _productReadRepository.Table
+                .Include(p => p.ProductImageFiles)
+                .FirstOrDefaultAsync(p => p.Id == Guid.Parse(productId));
+
+            ProductImageFile? productImageFile = product.ProductImageFiles.FirstOrDefault(p => p.Id == Guid.Parse(imageId));
+            product.ProductImageFiles.Remove(productImageFile);
+            await _productWriteRepository.SaveAsync();
+            return NoContent();
         }
     }
 }

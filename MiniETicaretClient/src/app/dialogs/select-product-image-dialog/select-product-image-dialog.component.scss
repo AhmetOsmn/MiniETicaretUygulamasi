@@ -1,0 +1,21 @@
+.product-image-card {
+    width: 250px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    float: left;
+    padding: 15px;
+    margin: 5px;
+  }
+  
+  .product-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+  }
+
+  img {
+    height: 180px;
+    object-fit: contain;
+    margin: 0 -16px 0 -16px;
+  }
+  

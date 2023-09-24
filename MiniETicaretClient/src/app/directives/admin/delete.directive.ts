@@ -13,7 +13,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { SpinnerType } from 'src/app/base/base.component';
 import {
   DeleteDialogComponent,
-  DeleteSate,
+  DeleteState,
 } from 'src/app/dialogs/delete-dialog/delete-dialog.component';
 import {
   AlertifyService,
@@ -55,7 +55,7 @@ export class DeleteDirective {
   async onClick() {
     this.dialogService.openDialog({
       componentType: DeleteDialogComponent,
-      data: DeleteSate.Yes,
+      data: DeleteState.Yes,
       afterClosed: async () => {
         this.spinner.show(SpinnerType.BallAtom);
         const td: HTMLTableCellElement = this.element.nativeElement;
