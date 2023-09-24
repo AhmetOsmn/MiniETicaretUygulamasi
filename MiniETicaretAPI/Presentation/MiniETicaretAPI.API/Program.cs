@@ -1,4 +1,5 @@
 using FluentValidation.AspNetCore;
+using MiniETicaretAPI.Application;
 using MiniETicaretAPI.Application.Validators.Products;
 using MiniETicaretAPI.Infrastructure;
 using MiniETicaretAPI.Infrastructure.Filters;
@@ -10,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddPersistenceServices();
 builder.Services.AddInfrastructureServices();
+builder.Services.AddApplicationServices();
 
 builder.Services.AddStorage<AzureStorage>();
 //builder.Services.AddStorage(StorageType.Local);

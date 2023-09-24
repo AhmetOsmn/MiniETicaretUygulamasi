@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiniETicaretAPI.Application.Abstactions.Storage;
+using MiniETicaretAPI.Application.Features.Commands.Product.CreateProduct;
+using MiniETicaretAPI.Application.Features.Queries.Product.GetAllProduct;
 using MiniETicaretAPI.Application.Repositories;
 using MiniETicaretAPI.Application.RequestParameters;
 using MiniETicaretAPI.Application.ViewModels.Products;
@@ -19,39 +22,29 @@ namespace MiniETicaretAPI.API.Controllers
         private readonly IProductImageFileWriteRepository _productImageFileWriteRepository;
         private readonly IConfiguration _configuration;
 
+        private readonly IMediator _mediator;
+
         public ProductsController(
             IProductWriteRepository productWriteRepository,
             IProductReadRepository productReadRepository,
             IStorageService storageService,
             IProductImageFileWriteRepository productImageFileWriteRepository,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IMediator mediator)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
             _storageService = storageService;
             _productImageFileWriteRepository = productImageFileWriteRepository;
             _configuration = configuration;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] Pagination pagination)
+        public async Task<IActionResult> Get([FromQuery] GetAllProductQueryRequest getAllProductQueryRequest)
         {
-            var totalCount = _productReadRepository.GetAll(false).Count();
-            var products = _productReadRepository.GetAll(false).Skip(pagination.Page * pagination.Size).Take(pagination.Size).Select(p => new
-            {
-                p.Id,
-                p.Name,
-                p.Stock,
-                p.Price,
-                p.CreatedDate,
-                p.UpdatedDate
-            }).ToList();
-
-            return Ok(new
-            {
-                totalCount,
-                products
-            });
+            GetAllProductQueryResponse response = await _mediator.Send(getAllProductQueryRequest);
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
@@ -61,15 +54,9 @@ namespace MiniETicaretAPI.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(CreateProductVM model)
+        public async Task<IActionResult> Post(CreateProductCommandRequest createProductCommandRequest)
         {
-            await _productWriteRepository.AddAsync(new()
-            {
-                Name = model.Name,
-                Price = model.Price,
-                Stock = model.Stock
-            });
-            await _productWriteRepository.SaveAsync();
+            Task<CreateProductCommandResponse> response =_mediator.Send(createProductCommandRequest);            
             return StatusCode((int)HttpStatusCode.Created);
         }
 
