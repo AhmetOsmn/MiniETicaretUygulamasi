@@ -3,7 +3,7 @@ using MiniETicaretAPI.Application.Repositories;
 
 namespace MiniETicaretAPI.Application.Features.Commands.Product.CreateProduct
 {
-    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommandRequest, CreateProductCommandResponse>
+    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommandRequest>
     {
         private readonly IProductWriteRepository _productWriteRepository;
 
@@ -12,7 +12,7 @@ namespace MiniETicaretAPI.Application.Features.Commands.Product.CreateProduct
             _productWriteRepository = productWriteRepository;
         }
 
-        public async Task<CreateProductCommandResponse> Handle(CreateProductCommandRequest request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateProductCommandRequest request, CancellationToken cancellationToken)
         {
             await _productWriteRepository.AddAsync(new()
             {
@@ -23,7 +23,7 @@ namespace MiniETicaretAPI.Application.Features.Commands.Product.CreateProduct
 
             await _productWriteRepository.SaveAsync();
 
-            return new();
+            return Unit.Value;
         }
     }
 }
