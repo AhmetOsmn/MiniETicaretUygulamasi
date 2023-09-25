@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MiniETicaretAPI.Domain.Entities;
 using MiniETicaretAPI.Domain.Entities.Common;
+using MiniETicaretAPI.Domain.Entities.Identity;
 
 namespace MiniETicaretAPI.Persistence.Contexts
 {
-    public class MiniETicaretAPIDbContext : DbContext
+    public class MiniETicaretAPIDbContext : IdentityDbContext<AppUser,AppRole, string>
     {
         public MiniETicaretAPIDbContext(DbContextOptions options) : base(options)
         { }
