@@ -1,0 +1,33 @@
+<div class="container-sm mt-5">
+  <div class="mb-3">
+    <label for="userNameOrEmail" class="form-label"
+      >Kullanıcı Adı veya Email</label
+    >
+    <input
+      #txtUsernameOrEmail
+      type="text"
+      formControlName="userNameOrEmail"
+      class="form-control"
+      id="userNameOrEmail"
+      placeholder="ahmetosmn | ahmet@gmail.com"
+    />
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">Şifre</label>
+    <input
+      #txtPassword
+      type="password"
+      formControlName="password"
+      class="form-control"
+      id="password"
+      placeholder="q1w2e3RR_"
+    />
+  </div>
+  <button
+    type="submit"
+    class="btn btn-primary"
+    (click)="login(txtUsernameOrEmail.value, txtPassword.value)"
+  >
+    Giriş Yap
+  </button>
+</div>

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace MiniETicaretAPI.Application.Features.Commands.AppUser
+namespace MiniETicaretAPI.Application.Features.Commands.AppUser.CreateUser
 {
     public class CreateUserCommandRequest : IRequest<CreateUserCommandResponse>
     {

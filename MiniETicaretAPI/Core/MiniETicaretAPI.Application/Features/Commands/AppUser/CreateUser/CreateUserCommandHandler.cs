@@ -2,19 +2,19 @@
 using Microsoft.AspNetCore.Identity;
 using MiniETicaretAPI.Application.Exceptions;
 
-namespace MiniETicaretAPI.Application.Features.Commands.AppUser
+namespace MiniETicaretAPI.Application.Features.Commands.AppUser.CreateUser
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommandRequest, CreateUserCommandResponse>
     {
         private readonly UserManager<Domain.Entities.Identity.AppUser> _userManager;
 
-        public CreateUserCommandHandler(Microsoft.AspNetCore.Identity.UserManager<Domain.Entities.Identity.AppUser> userManager)
+        public CreateUserCommandHandler(UserManager<Domain.Entities.Identity.AppUser> userManager)
         {
             _userManager = userManager;
         }
 
         public async Task<CreateUserCommandResponse> Handle(CreateUserCommandRequest request, CancellationToken cancellationToken)
-        {            
+        {
             IdentityResult result = await _userManager.CreateAsync(new()
             {
                 Id = Guid.NewGuid().ToString(),
