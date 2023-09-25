@@ -1,0 +1,72 @@
+<div class="container-sm mt-5">
+  <form [formGroup]="frm" (ngSubmit)="onSubmit(frm.value)">
+    <div class="mb-3">
+      <label for="nameSurname" class="form-label">Ad Soyad</label>
+      <input
+        type="text"
+        formControlName="nameSurname"
+        class="form-control"
+        id="nameSurname"
+        placeholder="Ahmet Osman Sezgin"
+        [ngClass]="{'is-invalid': submitted && component.nameSurname.errors}"
+      />
+      <small *ngIf="submitted && component.nameSurname.errors?.required"  class="form-text text-danger">Lütfen ad soyadı boş geçmeyiniz.</small>
+      <small *ngIf="submitted && (component.nameSurname.errors?.minlength || component.nameSurname.errors?.maxlength)" class="form-text text-danger">Lütfen ad soyadı 2-50 karakter arasında giriniz.</small>
+    </div>
+    <div class="mb-3">
+      <label for="userName" class="form-label">Kullanıcı Adı</label>
+      <input
+        type="text"
+        formControlName="userName"
+        class="form-control"
+        id="userName"
+        placeholder="ahmetosmn"
+        [ngClass]="{'is-invalid': submitted && component.userName.errors}"        
+      />
+      <small *ngIf="submitted && component.userName.errors?.required"  class="form-text text-danger">Lütfen kullanıcı adını boş geçmeyiniz.</small>
+      <small *ngIf="submitted && (component.userName.errors?.minlength || component.userName.errors?.maxlength)"  class="form-text text-danger">Lütfen kullanıcı adını 2-50 karakter arasında giriniz.</small>
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input
+        type="email"
+        formControlName="email"
+        class="form-control"
+        id="email"
+        placeholder="ahmet@gmail.com"
+        [ngClass]="{'is-invalid': submitted && component.email.errors}"
+      />
+      <small *ngIf="submitted && component.email.errors?.required"  class="form-text text-danger">Lütfen email'i boş geçmeyiniz.</small>
+      <small *ngIf="submitted && component.email.errors?.maxlength"  class="form-text text-danger">Lütfen 50 karakterden kısa bir email giriniz.</small>
+      <small *ngIf="submitted && component.email.errors?.email"  class="form-text text-danger">Lütfen geçerli bir email giriniz.</small>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Şifre</label>
+      <input
+        type="password"
+        formControlName="password"
+        class="form-control"
+        id="password"
+        placeholder="q1w2e3RR_"
+        [ngClass]="{'is-invalid': submitted && component.password.errors}"
+      />
+      <small *ngIf="submitted && component.password.errors?.required"  class="form-text text-danger">Lütfen şifreyi boş geçmeyiniz.</small>
+      <small *ngIf="submitted && (component.password.errors?.minlength || component.password.errors?.maxlength)"  class="form-text text-danger">Lütfen şifreyi 5-50 karakter arasında giriniz.</small>
+    </div>
+    <div class="mb-3">
+      <label for="passwordRetry" class="form-label">Şifre Tekrar</label>
+      <input
+        type="password"
+        formControlName="passwordRetry"
+        class="form-control"
+        id="passwordRetry"
+        placeholder="q1w2e3RR_"
+        [ngClass]="{'is-invalid': submitted && component.passwordRetry.errors}"
+      />
+      <small *ngIf="submitted && component.passwordRetry.errors?.required"  class="form-text text-danger">Lütfen şifre tekrarını boş geçmeyiniz.</small>
+      <small *ngIf="submitted && (component.passwordRetry.errors?.minlength || component.passwordRetry.errors?.maxlength)"  class="form-text text-danger">Lütfen şifre tekrarını 5-50 karakter arasında giriniz.</small>
+      <small *ngIf="submitted && frm.hasError('notSame')" class="form-text text-danger">Lütfen şifreyi doğrulayınız.</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Kayıt Ol</button>
+  </form>
+</div>
