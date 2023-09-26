@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MiniETicaretAPI.Application.Abstactions.Storage;
+using MiniETicaretAPI.Application.Abstactions.Token;
 using MiniETicaretAPI.Infrastructure.Enums;
 using MiniETicaretAPI.Infrastructure.Services.Storage;
 using MiniETicaretAPI.Infrastructure.Services.Storage.AWS;
 using MiniETicaretAPI.Infrastructure.Services.Storage.Azure;
 using MiniETicaretAPI.Infrastructure.Services.Storage.Local;
+using MiniETicaretAPI.Infrastructure.Services.Token;
 
 namespace MiniETicaretAPI.Infrastructure
 {
@@ -13,6 +15,7 @@ namespace MiniETicaretAPI.Infrastructure
         public static void AddInfrastructureServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<IStorageService, StorageService>();
+            serviceCollection.AddScoped<ITokenHandler, TokenHandler>();
         }
 
         public static void AddStorage<T>(this IServiceCollection serviceCollection) where T : Storage, IStorage
