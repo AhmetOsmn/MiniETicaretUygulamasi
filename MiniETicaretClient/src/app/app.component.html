@@ -23,51 +23,24 @@
               >
             </li>
             <li class="nav-item">
-              <a
-                class="nav-link active"
-                aria-current="page"
-                routerLink="products"
-                >Ürünler</a
-              >
+              <a class="nav-link active" aria-current="page" routerLink="products">Ürünler</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" routerLink="basket"
-                >Sepet</a
-              >
+              <a class="nav-link active" aria-current="page" routerLink="basket">Sepet</a>
             </li>
             <li class="nav-item">
-              <a
-                class="btn btn-success me-2"
-                aria-current="register"
-                routerLink="register"
-                >Kayıt Ol</a
-              >
+              <a class="btn btn-success me-2" aria-current="register" routerLink="register" *ngIf="!authService.isAuthenticated">Kayıt Ol</a>
             </li>
             <li class="nav-item">
-              <a
-                class="btn btn-info me-2"
-                aria-current="login"
-                routerLink="login"
-                >Giriş Yap</a
-              >
+              <a class="btn btn-info me-2" aria-current="login" routerLink="login" *ngIf="!authService.isAuthenticated">Giriş Yap</a>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-danger me-2" aria-current="login" routerLink="login" (click)="signOut()" *ngIf="authService.isAuthenticated">Çıkış Yap</a>
             </li>
             <li>
-              <a routerLink="admin" class="btn btn-primary" type="submit"
-                >Yönetim Paneli</a
-              >
+              <a routerLink="admin" class="btn btn-primary" type="submit" *ngIf="authService.isAuthenticated">Yönetim Paneli</a>
             </li>
           </ul>
-          <form class="d-flex">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button class="btn btn-outline-success" type="submit">
-              Ara
-            </button>
-          </form>
         </div>
       </div>
     </nav>
