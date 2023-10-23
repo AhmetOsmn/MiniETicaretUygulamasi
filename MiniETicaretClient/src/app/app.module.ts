@@ -10,8 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ToastrModule } from 'ngx-toastr';
 import { LoginComponent } from './ui/components/login/login.component';
-import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule, GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],
@@ -20,7 +19,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     AppRoutingModule,
     AdminModule,
     UiModule,
-    //ToastrModule.forRoot(),
+    ToastrModule.forRoot(),
     BrowserAnimationsModule,
     NgxSpinnerModule,
     SocialLoginModule,
@@ -32,7 +31,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
         allowedDomains: ['localhost:7131'],
       },
     }),
-      FontAwesomeModule,
   ],
   providers: [
     { provide: 'baseUrl', useValue: 'https://localhost:7160/api', multi: true },

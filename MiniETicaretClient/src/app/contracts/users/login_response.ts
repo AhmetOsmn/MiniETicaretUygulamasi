@@ -1,5 +1,5 @@
 import { Token } from "./token";
 
-export class Login {
+export class LoginResponse {
     token: Token;
 }
