@@ -1,8 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MiniETicaretAPI.Application.Abstactions.Storage;
 using MiniETicaretAPI.Application.Features.Commands.Product.CreateProduct;
 using MiniETicaretAPI.Application.Features.Commands.Product.DeleteProduct;
 using MiniETicaretAPI.Application.Features.Commands.ProductImageFile.DeleteProductImage;
@@ -10,10 +8,6 @@ using MiniETicaretAPI.Application.Features.Commands.ProductImageFile.UploadProdu
 using MiniETicaretAPI.Application.Features.Queries.Product.GetAllProduct;
 using MiniETicaretAPI.Application.Features.Queries.Product.GetProductById;
 using MiniETicaretAPI.Application.Features.Queries.ProductImageFile.GetProductImages;
-using MiniETicaretAPI.Application.Repositories;
-using MiniETicaretAPI.Application.RequestParameters;
-using MiniETicaretAPI.Application.ViewModels.Products;
-using MiniETicaretAPI.Domain.Entities;
 using System.Net;
 
 namespace MiniETicaretAPI.API.Controllers
@@ -38,7 +32,7 @@ namespace MiniETicaretAPI.API.Controllers
         }
 
         [HttpGet("{Id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]GetProductByIdQueryRequest getProductByIdQueryRequest)
+        public async Task<IActionResult> GetAsync([FromRoute] GetProductByIdQueryRequest getProductByIdQueryRequest)
         {
             return Ok(await _mediator.Send(getProductByIdQueryRequest));
         }
@@ -75,7 +69,7 @@ namespace MiniETicaretAPI.API.Controllers
         [HttpGet("[action]/{Id}")]
         public async Task<IActionResult> GetProductImages([FromRoute] GetProductImagesQueryRequest getProductImagesQueryRequest)
         {
-            GetProductImagesQueryResponse response = await _mediator.Send(getProductImagesQueryRequest);       
+            GetProductImagesQueryResponse response = await _mediator.Send(getProductImagesQueryRequest);
             return Ok(response.ProductImageDetails);
         }
 

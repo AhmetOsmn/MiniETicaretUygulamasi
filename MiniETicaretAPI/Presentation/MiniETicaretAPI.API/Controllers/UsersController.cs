@@ -1,10 +1,6 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MiniETicaretAPI.Application.Features.Commands.AppUser.CreateUser;
-using MiniETicaretAPI.Application.Features.Commands.AppUser.FacebookLogin;
-using MiniETicaretAPI.Application.Features.Commands.AppUser.GoogleLogin;
-using MiniETicaretAPI.Application.Features.Commands.AppUser.LoginUser;
 
 namespace MiniETicaretAPI.API.Controllers
 {
@@ -25,27 +21,5 @@ namespace MiniETicaretAPI.API.Controllers
             CreateUserCommandResponse resposne = await _mediator.Send(createUserCommandRequest);
             return Ok(resposne);
         }
-
-        [HttpPost("[action]")]
-        public async Task<IActionResult> Login(LoginUserCommandRequest loginUserCommandRequest)
-        {
-            LoginUserCommandResponse resposne = await _mediator.Send(loginUserCommandRequest);
-            return Ok(resposne);
-        }
-
-        [HttpPost("google-login")]
-        public async Task<IActionResult> GoogleLogin(GoogleLoginCommandRequest googleLoginCommandRequest)
-        {
-            GoogleLoginCommandResponse response = await _mediator.Send(googleLoginCommandRequest);
-            return Ok(response);
-        }
-
-        [HttpPost("facebook-login")]
-        public async Task<IActionResult> FacebookLogin(FacebookLoginCommandRequest facebookLoginCommandRequest)
-        {
-            FacebookLoginCommandResponse response = await _mediator.Send(facebookLoginCommandRequest);
-            return Ok(response);
-        }
-
     }
 }

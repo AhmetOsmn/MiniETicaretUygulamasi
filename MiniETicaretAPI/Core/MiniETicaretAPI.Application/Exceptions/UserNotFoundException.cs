@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace MiniETicaretAPI.Application.Exceptions
+﻿namespace MiniETicaretAPI.Application.Exceptions
 {
     public class UserNotFoundException : Exception
     {

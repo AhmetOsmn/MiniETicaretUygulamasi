@@ -22,9 +22,9 @@ namespace MiniETicaretAPI.Application.Features.Commands.ProductImageFile.DeleteP
                 .FirstOrDefaultAsync(p => p.Id == Guid.Parse(request.ProductId));
 
             Domain.Entities.ProductImageFile? productImageFile = product.ProductImageFiles.FirstOrDefault(p => p.Id == Guid.Parse(request.ImageId));
-            
+
             product.ProductImageFiles.Remove(productImageFile);
-            
+
             await _productWriteRepository.SaveAsync();
 
             return Unit.Value;

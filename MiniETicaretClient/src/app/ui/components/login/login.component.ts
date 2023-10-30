@@ -15,6 +15,8 @@ import {
   ToastrMessageType,
   ToastrPosition,
 } from 'src/app/services/ui/custom-toastr.service';
+import { UserAuthService } from 'src/app/services/common/models/user-auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -25,23 +27,25 @@ export class LoginComponent extends BaseComponent implements OnInit {
   faFacebook = faFacebook;
   constructor(
     spinner: NgxSpinnerService,
-    private userService: UserService,
+    private userAuthService: UserAuthService,
     private authService: AuthService,
     private socialAuthService: SocialAuthService,
-    private toastrService: CustomToastrService
+    private toastrService: CustomToastrService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {
     super(spinner);
     socialAuthService.authState.subscribe(async (user: SocialUser) => {
       this.showSpinner(SpinnerType.BallAtom);
       switch (user.provider) {
         case 'GOOGLE':
-          await userService.googleLogin(user, () => {
+          await userAuthService.googleLogin(user, () => {
             this.authService.identityCheck();
             this.hideSpinner(SpinnerType.BallAtom);
           });
           break;
         case 'FACEBOOK':
-          await userService.facebookLogin(user, () => {
+          await userAuthService.facebookLogin(user, () => {
             this.authService.identityCheck();
             this.hideSpinner(SpinnerType.BallAtom);
           });
@@ -53,6 +57,15 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
   async login(usernameOrEmail: string, password: string) {
     this.showSpinner(SpinnerType.BallAtom);
+    await this.userAuthService.login(usernameOrEmail, password, () => {
+      this.authService.identityCheck();
+
+      this.activatedRoute.queryParams.subscribe((params) => {
+        const returnUrl: string = params['returnUrl'];
+        if (returnUrl) this.router.navigate([returnUrl]);
+      });
+      this.hideSpinner(SpinnerType.BallAtom);
+    });
   }
 
   facebookLogin() {

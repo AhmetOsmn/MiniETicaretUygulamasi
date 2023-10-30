@@ -18,7 +18,7 @@ namespace MiniETicaretAPI.Application.Features.Commands.Product.UpdateProduct
         public async Task<Unit> Handle(UpdateProductCommandRequest request, CancellationToken cancellationToken)
         {
             var product = await _productReadRepository.GetByIdAsync(request.Id);
-            
+
             product.Name = request.Name;
             product.Price = request.Price;
             product.Stock = request.Stock;

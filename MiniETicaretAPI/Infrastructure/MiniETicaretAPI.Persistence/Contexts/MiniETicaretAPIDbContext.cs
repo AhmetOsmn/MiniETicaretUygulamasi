@@ -6,7 +6,7 @@ using MiniETicaretAPI.Domain.Entities.Identity;
 
 namespace MiniETicaretAPI.Persistence.Contexts
 {
-    public class MiniETicaretAPIDbContext : IdentityDbContext<AppUser,AppRole, string>
+    public class MiniETicaretAPIDbContext : IdentityDbContext<AppUser, AppRole, string>
     {
         public MiniETicaretAPIDbContext(DbContextOptions options) : base(options)
         { }

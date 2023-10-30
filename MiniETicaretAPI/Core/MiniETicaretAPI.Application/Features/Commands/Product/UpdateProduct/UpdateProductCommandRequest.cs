@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using MiniETicaretAPI.Application.Features.Commands.Product.UpdateProduct;
 
 namespace MiniETicaretAPI.Application.Features.Commands.Product.CreateProduct
 {

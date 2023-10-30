@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using MiniETicaretAPI.Application.Abstactions.Services;
+using MiniETicaretAPI.Application.Abstactions.Services.Authentications;
 using MiniETicaretAPI.Application.Repositories;
 using MiniETicaretAPI.Domain.Entities.Identity;
 using MiniETicaretAPI.Persistence.Contexts;
 using MiniETicaretAPI.Persistence.Repositories;
+using MiniETicaretAPI.Persistence.Services;
 
 namespace MiniETicaretAPI.Persistence
 {
@@ -35,6 +38,11 @@ namespace MiniETicaretAPI.Persistence
             services.AddScoped<IInvoiceFileReadRepository, InvoiceFileReadRepository>();
             services.AddScoped<IFileReadRepository, FileReadRepository>();
             services.AddScoped<IFileWriteRepository, FileWriteRepository>();
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IExternalAuthentication, AuthService>();
+            services.AddScoped<IInternalAuthentication, AuthService>();
         }
     }
 }

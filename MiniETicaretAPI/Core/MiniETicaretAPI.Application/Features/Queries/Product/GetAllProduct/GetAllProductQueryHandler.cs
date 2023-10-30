@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using MiniETicaretAPI.Application.Repositories;
-using MiniETicaretAPI.Application.RequestParameters;
 
 namespace MiniETicaretAPI.Application.Features.Queries.Product.GetAllProduct
 {

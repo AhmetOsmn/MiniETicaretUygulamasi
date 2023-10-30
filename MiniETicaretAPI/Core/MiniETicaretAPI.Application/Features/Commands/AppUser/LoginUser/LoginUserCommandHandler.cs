@@ -1,46 +1,24 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Identity;
-using MiniETicaretAPI.Application.Abstactions.Token;
-using MiniETicaretAPI.Application.Exceptions;
+using MiniETicaretAPI.Application.Abstactions.Services;
 
 namespace MiniETicaretAPI.Application.Features.Commands.AppUser.LoginUser
 {
     public class LoginUserCommandHandler : IRequestHandler<LoginUserCommandRequest, LoginUserCommandResponse>
     {
-        private readonly UserManager<Domain.Entities.Identity.AppUser> _userManager;
-        private readonly SignInManager<Domain.Entities.Identity.AppUser> _signInManager;
-        private readonly ITokenHandler _tokenHandler;
+        private readonly IAuthService _authService;
 
-        public LoginUserCommandHandler(UserManager<Domain.Entities.Identity.AppUser> userManager,
-                                       SignInManager<Domain.Entities.Identity.AppUser> signInManager,
-                                       ITokenHandler tokenHandler)
+        public LoginUserCommandHandler(IAuthService authService)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _tokenHandler = tokenHandler;
+            _authService = authService;
         }
 
         public async Task<LoginUserCommandResponse> Handle(LoginUserCommandRequest request, CancellationToken cancellationToken)
         {
-            Domain.Entities.Identity.AppUser user = await _userManager.FindByNameAsync(request.UsernameOrEmail);
-
-            
-            if (user == null)
+            return new()
             {
-                user = await _userManager.FindByEmailAsync(request.UsernameOrEmail);
-            }
-
-            if (user == null) throw new UserNotFoundException();
-
-
-            SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
-
-            if (result.Succeeded)
-            {
-                return new () { Token = _tokenHandler.CreateAccessToken(5) };
-            }
-
-            throw new AuthenticationErrorException();
+                Token = await _authService.LoginAsync(request.UsernameOrEmail, request.Password, 15)
+            };
         }
     }
 }
+
