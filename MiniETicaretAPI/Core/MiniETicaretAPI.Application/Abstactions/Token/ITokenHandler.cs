@@ -1,8 +1,10 @@
-﻿namespace MiniETicaretAPI.Application.Abstactions.Token
+﻿using MiniETicaretAPI.Domain.Entities.Identity;
+
+namespace MiniETicaretAPI.Application.Abstactions.Token
 {
     public interface ITokenHandler
     {
-        Dtos.Token CreateAccessToken(int second);
+        Dtos.Token CreateAccessToken(int second, AppUser user);
         string CreateRefreshToken();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.Extensions.Logging;
 using MiniETicaretAPI.Application.Features.Commands.Product.CreateProduct;
 using MiniETicaretAPI.Application.Repositories;
 
@@ -9,7 +10,10 @@ namespace MiniETicaretAPI.Application.Features.Commands.Product.UpdateProduct
         private readonly IProductWriteRepository _productWriteRepository;
         private readonly IProductReadRepository _productReadRepository;
 
-        public UpdateProductCommandHandler(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository)
+        public UpdateProductCommandHandler(
+            IProductWriteRepository productWriteRepository,
+            IProductReadRepository productReadRepository
+            )
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
@@ -24,7 +28,6 @@ namespace MiniETicaretAPI.Application.Features.Commands.Product.UpdateProduct
             product.Stock = request.Stock;
 
             await _productWriteRepository.SaveAsync();
-
             return Unit.Value;
         }
     }

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.Extensions.Logging;
 using MiniETicaretAPI.Application.Repositories;
 
 namespace MiniETicaretAPI.Application.Features.Queries.Product.GetAllProduct
@@ -6,10 +7,12 @@ namespace MiniETicaretAPI.Application.Features.Queries.Product.GetAllProduct
     public class GetAllProductQueryHandler : IRequestHandler<GetAllProductQueryRequest, GetAllProductQueryResponse>
     {
         private readonly IProductReadRepository _productReadRepository;
+        private readonly ILogger<GetAllProductQueryHandler> _logger;
 
-        public GetAllProductQueryHandler(IProductReadRepository productReadRepository)
+        public GetAllProductQueryHandler(IProductReadRepository productReadRepository, ILogger<GetAllProductQueryHandler> logger)
         {
             _productReadRepository = productReadRepository;
+            _logger = logger;
         }
 
         public async Task<GetAllProductQueryResponse> Handle(GetAllProductQueryRequest request, CancellationToken cancellationToken)
@@ -24,6 +27,8 @@ namespace MiniETicaretAPI.Application.Features.Queries.Product.GetAllProduct
                 p.CreatedDate,
                 p.UpdatedDate
             }).ToList();
+
+            _logger.LogInformation("ürünler listelendi");
 
             return new()
             {

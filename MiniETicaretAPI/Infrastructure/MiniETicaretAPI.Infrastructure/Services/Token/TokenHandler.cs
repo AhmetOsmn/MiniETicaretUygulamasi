@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MiniETicaretAPI.Application.Abstactions.Token;
+using MiniETicaretAPI.Domain.Entities.Identity;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -16,7 +18,7 @@ namespace MiniETicaretAPI.Infrastructure.Services.Token
             _configuration = configuration;
         }
 
-        public Application.Dtos.Token CreateAccessToken(int second)
+        public Application.Dtos.Token CreateAccessToken(int second, AppUser user)
         {
             Application.Dtos.Token token = new();
 
@@ -30,7 +32,8 @@ namespace MiniETicaretAPI.Infrastructure.Services.Token
                 issuer: _configuration["Token:Issuer"],
                 notBefore: DateTime.UtcNow,
                 signingCredentials: signingCredentials,
-                expires: token.Expiration
+                expires: token.Expiration,
+                claims: new List<Claim> { new(ClaimTypes.Name, user.UserName)  }
                 );
 
             JwtSecurityTokenHandler jwtSecurityTokenHandler = new();
