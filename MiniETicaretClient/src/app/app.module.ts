@@ -6,12 +6,13 @@ import { AdminModule } from './admin/admin.module';
 import { UiModule } from './ui/ui.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ToastrModule } from 'ngx-toastr';
 import { LoginComponent } from './ui/components/login/login.component';
 import { GoogleLoginProvider, FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { HttpErrorHandlerInterceptorService } from './services/common/http-error-handler-interceptor.service';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],
@@ -34,6 +35,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     }),
   ],
   providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: HttpErrorHandlerInterceptorService, multi: true},
     { provide: 'baseUrl', useValue: 'https://localhost:7160/api', multi: true },
     {
       provide: 'SocialAuthServiceConfig',
