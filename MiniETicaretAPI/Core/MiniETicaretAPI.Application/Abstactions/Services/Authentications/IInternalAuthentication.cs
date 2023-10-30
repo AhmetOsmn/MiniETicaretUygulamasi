@@ -3,5 +3,6 @@
     public interface IInternalAuthentication
     {
         Task<Dtos.Token> LoginAsync(string userNameOrEmail, string password, int accessTokenLifeTime);
+        Task<Dtos.Token> RefreshLoginAsync(string refreshToken);
     }
 }

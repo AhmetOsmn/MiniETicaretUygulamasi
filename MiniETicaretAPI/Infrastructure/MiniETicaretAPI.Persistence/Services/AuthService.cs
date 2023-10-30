@@ -1,5 +1,6 @@
 ﻿using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MiniETicaretAPI.Application.Abstactions.Services;
 using MiniETicaretAPI.Application.Abstactions.Token;
@@ -14,19 +15,26 @@ namespace MiniETicaretAPI.Persistence.Services
     public class AuthService : IAuthService
     {
         private readonly HttpClient _httpClient;
-        private readonly IConfiguration _configuration;
         private readonly UserManager<AppUser> _userManager;
-        private readonly ITokenHandler _tokenHandler;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly ITokenHandler _tokenHandler;
+        private readonly IConfiguration _configuration;
+        private readonly IUserService _userService;
 
-
-        public AuthService(IHttpClientFactory httpClientFactory, IConfiguration configuration, UserManager<AppUser> userManager, ITokenHandler tokenHandler, SignInManager<AppUser> signInManager)
+        public AuthService(
+            IHttpClientFactory httpClientFactory,
+            IConfiguration configuration,
+            UserManager<AppUser> userManager,
+            ITokenHandler tokenHandler,
+            SignInManager<AppUser> signInManager,
+            IUserService userService)
         {
             _httpClient = httpClientFactory.CreateClient();
             _configuration = configuration;
             _userManager = userManager;
             _tokenHandler = tokenHandler;
             _signInManager = signInManager;
+            _userService = userService;
         }
 
         public async Task<Token> FacebookLoginAsync(string authToken, int accessTokenLifeTime)
@@ -82,10 +90,26 @@ namespace MiniETicaretAPI.Persistence.Services
 
             if (result.Succeeded)
             {
-                return _tokenHandler.CreateAccessToken(accessTokenLifeTime);
+                var token = _tokenHandler.CreateAccessToken(accessTokenLifeTime);
+                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 15);
+                return token;
             }
 
             throw new AuthenticationErrorException();
+        }
+
+        public async Task<Token> RefreshLoginAsync(string refreshToken)
+        {
+            AppUser? user = await _userManager.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
+            if (user != null && user?.RefreshTokenExpireDate > DateTime.UtcNow)
+            {
+                Token token = _tokenHandler.CreateAccessToken(15);
+                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 15);
+                return token;
+            }
+            else
+                throw new UserNotFoundException();
+
         }
 
         private async Task<Token> CreateExternalUserAsync(AppUser user, UserLoginInfo userLoginInfo, string email, string name, int accessTokenLifeTime)
@@ -114,7 +138,10 @@ namespace MiniETicaretAPI.Persistence.Services
             if (result)
             {
                 await _userManager.AddLoginAsync(user, userLoginInfo);
-                return _tokenHandler.CreateAccessToken(accessTokenLifeTime);
+
+                var token = _tokenHandler.CreateAccessToken(accessTokenLifeTime);
+                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 15);
+                return token;
             }
             throw new Exception("Invalid external authentication");
         }

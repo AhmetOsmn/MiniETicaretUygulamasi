@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MiniETicaretAPI.Application.Features.Commands.AppUser.FacebookLogin;
 using MiniETicaretAPI.Application.Features.Commands.AppUser.GoogleLogin;
 using MiniETicaretAPI.Application.Features.Commands.AppUser.LoginUser;
+using MiniETicaretAPI.Application.Features.Commands.RefreshTokenLogin;
 
 namespace MiniETicaretAPI.API.Controllers
 {
@@ -20,8 +21,15 @@ namespace MiniETicaretAPI.API.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Login(LoginUserCommandRequest loginUserCommandRequest)
         {
-            LoginUserCommandResponse resposne = await _mediator.Send(loginUserCommandRequest);
-            return Ok(resposne);
+            LoginUserCommandResponse response = await _mediator.Send(loginUserCommandRequest);
+            return Ok(response);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> RefreshTokenLogin([FromBody] RefreshTokenLoginCommandRequest refreshTokenLoginCommandRequest)
+        {
+            RefreshTokenLoginCommandResponse response = await _mediator.Send(refreshTokenLoginCommandRequest);
+            return Ok(response);
         }
 
         [HttpPost("google-login")]
