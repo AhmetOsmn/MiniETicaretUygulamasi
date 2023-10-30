@@ -23,12 +23,28 @@
       placeholder="q1w2e3RR_"
     />
   </div>
-  <asl-google-signin-button></asl-google-signin-button>
-  <button
-    type="submit"
-    class="btn btn-primary mt-2"
-    (click)="login(txtUsernameOrEmail.value, txtPassword.value)"
-  >
-    Giriş Yap
-  </button>
+  <div class="flex justify-content-center align-self-center">
+    <div class="d-flex">
+      <asl-google-signin-button></asl-google-signin-button>
+      <fa-icon
+        style="cursor: pointer"
+        class="p-1 1px solid border fs-5 rounded-1 bg-light text-info ms-2"
+        [icon]="faFacebook"
+        (click)="facebookLoginInfo()"
+      ></fa-icon>
+      <!-- <fa-icon
+        style="cursor: pointer"
+        class="p-1 1px solid border fs-5 rounded-1 bg-light text-info ms-2"
+        [icon]="faFacebook"
+        (click)="facebookLogin()"
+      ></fa-icon> -->
+    </div>
+    <button
+      type="submit"
+      class="btn btn-primary mt-2"
+      (click)="login(txtUsernameOrEmail.value, txtPassword.value)"
+    >
+      Giriş Yap
+    </button>
+  </div>
 </div>

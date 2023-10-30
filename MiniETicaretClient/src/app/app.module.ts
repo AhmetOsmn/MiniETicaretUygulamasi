@@ -10,12 +10,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ToastrModule } from 'ngx-toastr';
 import { LoginComponent } from './ui/components/login/login.component';
-import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { GoogleLoginProvider, FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],
   imports: [
     BrowserModule,
+    FontAwesomeModule,
     AppRoutingModule,
     AdminModule,
     UiModule,
@@ -23,8 +25,7 @@ import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 
     BrowserAnimationsModule,
     NgxSpinnerModule,
     SocialLoginModule,
-    HttpClientModule,
-
+    HttpClientModule,    
     JwtModule.forRoot({
       config: {
         tokenGetter: () => localStorage.getItem('accessToken'),
@@ -43,6 +44,12 @@ import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
               "183848410571-fkgemmp5u567jmg6ra2kt7shc65kenik.apps.googleusercontent.com"
+            ),
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider(
+              "743460937826252"
             ),
           },
         ],
