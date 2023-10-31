@@ -16,7 +16,7 @@ namespace MiniETicaretAPI.Application.Features.Commands.AppUser.LoginUser
         {
             return new()
             {
-                Token = await _authService.LoginAsync(request.UsernameOrEmail, request.Password, 15)
+                Token = await _authService.LoginAsync(request.UsernameOrEmail, request.Password, 15 * 60)
             };
         }
     }

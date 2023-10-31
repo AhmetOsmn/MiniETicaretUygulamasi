@@ -19,7 +19,6 @@ namespace MiniETicaretAPI.Application.Features.Queries.Product.GetAllProduct
         {
             var totalCount = _productReadRepository.GetAll(false).Count();
 
-            throw new InvalidOperationException("Ürünler listelenemedi");
             var products = _productReadRepository.GetAll(false).Skip(request.Page * request.Size).Take(request.Size).Select(p => new
             {
                 p.Id,

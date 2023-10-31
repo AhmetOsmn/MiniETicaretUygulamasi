@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MiniETicaretAPI.Application.Features.Commands.AppUser.FacebookLogin;
 using MiniETicaretAPI.Application.Features.Commands.AppUser.GoogleLogin;
 using MiniETicaretAPI.Application.Features.Commands.AppUser.LoginUser;
-using MiniETicaretAPI.Application.Features.Commands.RefreshTokenLogin;
+using MiniETicaretAPI.Application.Features.Commands.AppUser.RefreshTokenLogin;
 
 namespace MiniETicaretAPI.API.Controllers
 {

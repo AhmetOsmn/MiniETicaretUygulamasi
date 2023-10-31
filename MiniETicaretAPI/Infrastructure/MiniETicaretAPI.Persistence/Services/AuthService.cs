@@ -91,7 +91,7 @@ namespace MiniETicaretAPI.Persistence.Services
             if (result.Succeeded)
             {
                 var token = _tokenHandler.CreateAccessToken(accessTokenLifeTime, user);
-                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 15);
+                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 10 * 60);
                 return token;
             }
 
@@ -104,7 +104,7 @@ namespace MiniETicaretAPI.Persistence.Services
             if (user != null && user?.RefreshTokenExpireDate > DateTime.UtcNow)
             {
                 Token token = _tokenHandler.CreateAccessToken(15, user);
-                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 15);
+                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 10 * 60);
                 return token;
             }
             else
@@ -140,7 +140,7 @@ namespace MiniETicaretAPI.Persistence.Services
                 await _userManager.AddLoginAsync(user, userLoginInfo);
 
                 var token = _tokenHandler.CreateAccessToken(accessTokenLifeTime, user);
-                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 15);
+                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 10 * 60);
                 return token;
             }
             throw new Exception("Invalid external authentication");

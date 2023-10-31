@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using MiniETicaretAPI.Application.Abstactions.Services;
 
-namespace MiniETicaretAPI.Application.Features.Commands.RefreshTokenLogin
+namespace MiniETicaretAPI.Application.Features.Commands.AppUser.RefreshTokenLogin
 {
     public class RefreshTokenLoginCommandHandler : IRequestHandler<RefreshTokenLoginCommandRequest, RefreshTokenLoginCommandResponse>
     {

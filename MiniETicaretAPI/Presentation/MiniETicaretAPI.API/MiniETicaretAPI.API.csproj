@@ -23,6 +23,7 @@
     <ProjectReference Include="..\..\Core\MiniETicaretAPI.Application\MiniETicaretAPI.Application.csproj" />
     <ProjectReference Include="..\..\Infrastructure\MiniETicaretAPI.Infrastructure\MiniETicaretAPI.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\MiniETicaretAPI.Persistence\MiniETicaretAPI.Persistence.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\MiniETicaretAPI.SignalR\MiniETicaretAPI.SignalR.csproj" />
   </ItemGroup>
 
   <ItemGroup>

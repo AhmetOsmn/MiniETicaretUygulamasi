@@ -9,6 +9,7 @@ using MiniETicaretAPI.Infrastructure;
 using MiniETicaretAPI.Infrastructure.Filters;
 using MiniETicaretAPI.Infrastructure.Services.Storage.Azure;
 using MiniETicaretAPI.Persistence;
+using MiniETicaretAPI.SignalR;
 using Serilog;
 using Serilog.Context;
 using Serilog.Sinks.PostgreSQL;
@@ -21,6 +22,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddPersistenceServices();
 builder.Services.AddInfrastructureServices();
 builder.Services.AddApplicationServices();
+builder.Services.AddSignalRServices();
 
 builder.Services.AddStorage<AzureStorage>();
 //builder.Services.AddStorage(StorageType.Local);
@@ -59,7 +61,7 @@ builder.Services.AddHttpLogging(logging =>
 });
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
-    policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod()
+    policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials()
 ));
 
 builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>())
@@ -114,11 +116,13 @@ app.Use(async (context, next) =>
 {
     var userName = context.User?.Identity?.IsAuthenticated != null || true ? context!.User!.Identity!.Name : null;
 
-    LogContext.PushProperty("user_name",userName);
+    LogContext.PushProperty("user_name", userName);
 
     await next();
 });
 
 app.MapControllers();
+
+app.MapHubs();
 
 app.Run();

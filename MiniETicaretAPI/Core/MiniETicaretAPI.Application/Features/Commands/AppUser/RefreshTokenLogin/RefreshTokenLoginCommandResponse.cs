@@ -1,6 +1,6 @@
 ﻿using MiniETicaretAPI.Application.Dtos;
 
-namespace MiniETicaretAPI.Application.Features.Commands.RefreshTokenLogin
+namespace MiniETicaretAPI.Application.Features.Commands.AppUser.RefreshTokenLogin
 {
     public class RefreshTokenLoginCommandResponse
     {
