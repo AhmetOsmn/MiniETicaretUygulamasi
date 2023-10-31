@@ -2,6 +2,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MiniETicaretAPI.API.Configurations.CustomColumnWriters;
+using MiniETicaretAPI.API.Extensions;
 using MiniETicaretAPI.Application;
 using MiniETicaretAPI.Application.Validators.Products;
 using MiniETicaretAPI.Infrastructure;
@@ -92,6 +93,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.ConfigureExceptionHandler<Program>(app.Services.GetRequiredService<ILogger<Program>>());
 
 app.UseStaticFiles();
 
