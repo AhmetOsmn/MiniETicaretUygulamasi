@@ -12,6 +12,7 @@ import {
   DeleteDialogComponent,
   DeleteState,
 } from '../delete-dialog/delete-dialog.component';
+import { CustomToastrService, ToastrMessageType, ToastrPosition } from 'src/app/services/ui/custom-toastr.service';
 
 declare var $: any;
 
@@ -29,7 +30,8 @@ export class SelectProductImageDialogComponent
     @Inject(MAT_DIALOG_DATA) public data: SelectProductImageState | string,
     private productSerivice: ProductService,
     private spinnerService: NgxSpinnerService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private toastrService: CustomToastrService
   ) {
     super(dialogRef);
   }
@@ -52,6 +54,16 @@ export class SelectProductImageDialogComponent
     isAdminPage: true,
     queryString: `id=${this.data}`,
   };
+
+  setShowcase(imageId: string) {
+    this.productSerivice.changeImageShowcase(imageId, this.data as string, () => {
+      this.spinnerService.hide(SpinnerType.BallAtom);
+      this.toastrService.message("Vitrin görseli kaydedildi.","Vitrin Görseli",{
+        messageType: ToastrMessageType.Success,
+        position: ToastrPosition.TopRight
+      })
+    });
+  }
 
   async deleteImage(imageId: string, event: any) {
     this.dialogService.openDialog({

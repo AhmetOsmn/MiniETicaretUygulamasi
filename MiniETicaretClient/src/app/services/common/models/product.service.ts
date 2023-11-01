@@ -98,14 +98,38 @@ export class ProductService {
     return images;
   }
 
-  async deleteImage(productId: string, imageId: string, successCallBack?: () => void) {
-    const deleteObservable = this.httpClientService.delete({
-      action: "deleteproductimage",
-      controller: "products",
-      queryString: `imageId=${imageId}`
-    }, productId);
+  async deleteImage(
+    productId: string,
+    imageId: string,
+    successCallBack?: () => void
+  ) {
+    const deleteObservable = this.httpClientService.delete(
+      {
+        action: 'deleteproductimage',
+        controller: 'products',
+        queryString: `imageId=${imageId}`,
+      },
+      productId
+    );
 
     await firstValueFrom(deleteObservable);
+    successCallBack();
+  }
+
+  async changeImageShowcase(
+    imageId: string,
+    productId: string,
+    successCallBack?: () => void
+  ): Promise<void> {
+    const changeImageShowcaseObservable = this.httpClientService.get({
+      controller: 'products',
+      action: 'ChangeShowcase',
+      queryString: `imageId=${imageId}&productId=${productId}`,
+    });
+      console.log("🚀 ~ file: product.service.ts:129 ~ ProductService ~ productId:", productId)
+      console.log("🚀 ~ file: product.service.ts:129 ~ ProductService ~ imageId:", imageId)
+
+    await firstValueFrom(changeImageShowcaseObservable);
     successCallBack();
   }
 }
