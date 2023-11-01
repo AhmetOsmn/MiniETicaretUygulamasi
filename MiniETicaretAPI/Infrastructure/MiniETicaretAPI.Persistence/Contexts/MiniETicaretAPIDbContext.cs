@@ -14,6 +14,8 @@ namespace MiniETicaretAPI.Persistence.Contexts
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Basket> Baskets { get; set; }
+        public DbSet<BasketItem> BasketItems { get; set; }
 
         #region Table Per Hierarcy Yaklaşımı
         public DbSet<Domain.Entities.File> Files { get; set; }
@@ -21,10 +23,19 @@ namespace MiniETicaretAPI.Persistence.Contexts
         public DbSet<InvoiceFile> InvoiceFiles { get; set; }
         #endregion
 
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Order>().HasKey(b => b.Id);
+            builder.Entity<Basket>().HasOne(b => b.Order).WithOne(o => o.Basket).HasForeignKey<Order>(b => b.Id);
+
+            base.OnModelCreating(builder);
+        }
+
         // repository'de kullanilan savechangesasync metodunu override ediyoruz.
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            // ChangeTracker: Entity'ler uzerinden yapilan degisikliklerin ya da yeni eklenen verinin yakalanmasini sağlayan prop'tur. 
+            // ChangeTracker: Entity'ler uzerinden yapilan degisikliklerin ya da yeni eklenen verinin yakalanmasini sağlayan prop'tur.
             // Update operasyonlarinda Track edilen verileri yakalayip elde etmemizi saglar.
 
             var datas = ChangeTracker.Entries<BaseEntity>();    // surece giren butun baseentity'leri yakalayacak.
