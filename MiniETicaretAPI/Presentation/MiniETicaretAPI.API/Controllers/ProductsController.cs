@@ -33,14 +33,14 @@ namespace MiniETicaretAPI.API.Controllers
         }
 
         [HttpGet("{Id}")]
-        public async Task<IActionResult> GetAsync([FromRoute] GetProductByIdQueryRequest getProductByIdQueryRequest)
+        public async Task<IActionResult> Get([FromRoute] GetProductByIdQueryRequest getProductByIdQueryRequest)
         {
             return Ok(await _mediator.Send(getProductByIdQueryRequest));
         }
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
-        public async Task<IActionResult> PostAsync(CreateProductCommandRequest createProductCommandRequest)
+        public async Task<IActionResult> Post(CreateProductCommandRequest createProductCommandRequest)
         {
             await _mediator.Send(createProductCommandRequest);
             return StatusCode((int)HttpStatusCode.Created);

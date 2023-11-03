@@ -3,13 +3,8 @@ import { HttpClientService } from '../http-client.service';
 import { User } from 'src/app/entities/user';
 import { Create_User } from 'src/app/contracts/users/create_user';
 import { Observable, firstValueFrom } from 'rxjs';
-import { LoginResponse } from 'src/app/contracts/users/login_response';
-import {
-  CustomToastrService,
-  ToastrMessageType,
-  ToastrPosition,
-} from '../../ui/custom-toastr.service';
-import { SocialUser } from '@abacritt/angularx-social-login';
+import { CustomToastrService } from '../../ui/custom-toastr.service';
+import { usersController } from 'src/app/constants/api/api-controllers';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +19,7 @@ export class UserService {
     const observable: Observable<Create_User | User> =
       this.httpClientService.post<Create_User | User>(
         {
-          controller: 'users',
+          controller: usersController.controllerName,
         },
         user
       );

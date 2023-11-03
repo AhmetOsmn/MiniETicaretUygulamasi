@@ -8,6 +8,7 @@ import {
 import { Observable, firstValueFrom } from 'rxjs';
 import { LoginResponse } from 'src/app/contracts/users/login_response';
 import { SocialUser } from '@abacritt/angularx-social-login';
+import { authController } from 'src/app/constants/api/api-controllers';
 
 @Injectable({
   providedIn: 'root',
@@ -26,8 +27,8 @@ export class UserAuthService {
     const observable: Observable<any | LoginResponse> =
       this.httpClientService.post<any | LoginResponse>(
         {
-          controller: 'auth',
-          action: 'login',
+          controller: authController.controllerName,
+          action: authController.actions.login,
         },
         { usernameOrEmail, password }
       );
@@ -53,20 +54,33 @@ export class UserAuthService {
     callBackFunction();
   }
 
-  async refreshTokenLogin(refreshToken: string, callBackFunction?: () => void) : Promise<any> {
-    const observable: Observable<any | LoginResponse> = this.httpClientService.post({
-      action: "refreshtokenlogin",
-      controller: "auth"
-    }, { refreshToken: refreshToken });
+  async refreshTokenLogin(
+    refreshToken: string,
+    callBackFunction?: (state) => void
+  ): Promise<any> {
+    const observable: Observable<any | LoginResponse> =
+      this.httpClientService.post(
+        {
+          controller: authController.controllerName,
+          action: authController.actions.refreshTokenLogin,
+        },
+        { refreshToken: refreshToken }
+      );
 
-    const tokenResponse: LoginResponse = await firstValueFrom(observable) as LoginResponse;
+    try {
+      const tokenResponse: LoginResponse = (await firstValueFrom(
+        observable
+      )) as LoginResponse;
 
-    if (tokenResponse) {
-      localStorage.setItem("accessToken", tokenResponse.token.accessToken);
-      localStorage.setItem("refreshToken", tokenResponse.token.refreshToken);
+      if (tokenResponse) {
+        localStorage.setItem('accessToken', tokenResponse.token.accessToken);
+        localStorage.setItem('refreshToken', tokenResponse.token.refreshToken);
+      }
+
+      callBackFunction(tokenResponse ? true : false);
+    } catch (error) {
+      callBackFunction(false);
     }
-
-    callBackFunction();
   }
 
   async googleLogin(
@@ -76,8 +90,8 @@ export class UserAuthService {
     const observable: Observable<SocialUser | LoginResponse> =
       this.httpClientService.post<SocialUser | LoginResponse>(
         {
-          action: 'google-login',
-          controller: 'auth',
+          controller: authController.controllerName,
+          action: authController.actions.googleLogin,
         },
         user
       );
@@ -111,8 +125,8 @@ export class UserAuthService {
     const observable: Observable<SocialUser | LoginResponse> =
       this.httpClientService.post<SocialUser | LoginResponse>(
         {
-          action: 'facebook-login',
-          controller: 'auth',
+          controller: authController.controllerName,
+          action: authController.actions.facebookLogin,
         },
         user
       );

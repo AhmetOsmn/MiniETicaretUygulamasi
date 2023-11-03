@@ -6,6 +6,7 @@ import { Create_Product } from 'src/app/contracts/create_product';
 import { List_Product } from 'src/app/contracts/list_product';
 import { HttpClientService } from '../http-client.service';
 import { List_Product_Image } from 'src/app/contracts/list_product_image';
+import { productsController } from 'src/app/constants/api/api-controllers';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,7 @@ export class ProductService {
     this.httpClientService
       .post(
         {
-          controller: 'products',
+          controller: productsController.controllerName,
         },
         product
       )
@@ -54,7 +55,7 @@ export class ProductService {
       products: List_Product[];
     }> = this.httpClientService
       .get<{ totalCount: number; products: List_Product[] }>({
-        controller: 'products',
+        controller: productsController.controllerName,
         queryString: `page=${page}&size=${size}`,
       })
       .toPromise();
@@ -72,7 +73,7 @@ export class ProductService {
     const deleteObservable: Observable<any> =
       this.httpClientService.delete<any>(
         {
-          controller: 'products',
+          controller: productsController.controllerName,
         },
         id
       );
@@ -87,8 +88,8 @@ export class ProductService {
     const getObservable: Observable<List_Product_Image[]> =
       this.httpClientService.get<List_Product_Image[]>(
         {
-          action: 'getproductimages',
-          controller: 'products',
+          controller: productsController.controllerName,
+          action: productsController.actions.getProductImages,
         },
         id
       );
@@ -105,8 +106,8 @@ export class ProductService {
   ) {
     const deleteObservable = this.httpClientService.delete(
       {
-        action: 'deleteproductimage',
-        controller: 'products',
+        controller: productsController.controllerName,
+        action: productsController.actions.deleteProductImage,
         queryString: `imageId=${imageId}`,
       },
       productId
@@ -122,12 +123,18 @@ export class ProductService {
     successCallBack?: () => void
   ): Promise<void> {
     const changeImageShowcaseObservable = this.httpClientService.get({
-      controller: 'products',
-      action: 'ChangeShowcase',
+      controller: productsController.controllerName,
+      action: productsController.actions.changeShowcase,      
       queryString: `imageId=${imageId}&productId=${productId}`,
     });
-      console.log("🚀 ~ file: product.service.ts:129 ~ ProductService ~ productId:", productId)
-      console.log("🚀 ~ file: product.service.ts:129 ~ ProductService ~ imageId:", imageId)
+    console.log(
+      '🚀 ~ file: product.service.ts:129 ~ ProductService ~ productId:',
+      productId
+    );
+    console.log(
+      '🚀 ~ file: product.service.ts:129 ~ ProductService ~ imageId:',
+      imageId
+    );
 
     await firstValueFrom(changeImageShowcaseObservable);
     successCallBack();

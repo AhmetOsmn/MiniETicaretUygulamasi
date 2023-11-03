@@ -23,24 +23,65 @@
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" routerLink="products">Ürünler</a>
+              <a
+                class="nav-link active"
+                aria-current="page"
+                routerLink="products"
+                >Ürünler</a
+              >
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" routerLink="basket">Sepet</a>
+              <a class="nav-link active" aria-current="page" routerLink="basket"
+                >Sepet</a
+              >
             </li>
             <li class="nav-item">
-              <a class="btn btn-success me-2" aria-current="register" routerLink="register" *ngIf="!authService.isAuthenticated">Kayıt Ol</a>
+              <a
+                class="btn btn-success me-2"
+                aria-current="register"
+                routerLink="register"
+                *ngIf="!authService.isAuthenticated"
+                >Kayıt Ol</a
+              >
             </li>
             <li class="nav-item">
-              <a class="btn btn-info me-2" aria-current="login" routerLink="login" *ngIf="!authService.isAuthenticated">Giriş Yap</a>
+              <a
+                class="btn btn-info me-2"
+                aria-current="login"
+                routerLink="login"
+                *ngIf="!authService.isAuthenticated"
+                >Giriş Yap</a
+              >
             </li>
             <li class="nav-item">
-              <a class="btn btn-danger me-2" aria-current="login" routerLink="login" (click)="signOut()" *ngIf="authService.isAuthenticated">Çıkış Yap</a>
+              <a
+                class="btn btn-danger me-2"
+                aria-current="login"
+                routerLink="login"
+                (click)="signOut()"
+                *ngIf="authService.isAuthenticated"
+                >Çıkış Yap</a
+              >
             </li>
             <li>
-              <a routerLink="admin" class="btn btn-primary" type="submit" *ngIf="authService.isAuthenticated">Yönetim Paneli</a>
+              <a
+                routerLink="admin"
+                class="btn btn-primary"
+                type="submit"
+                *ngIf="authService.isAuthenticated"
+                >Yönetim Paneli</a
+              >
             </li>
           </ul>
+          <div class="d-flex">
+            <fa-icon
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop"
+              style="cursor: pointer"
+              class="p-1 1px solid border fs-5 rounded-1 bg-light text-info ms-2"
+              [icon]="faShopIcon"
+            ></fa-icon>
+          </div>
         </div>
       </div>
     </nav>
@@ -59,3 +100,5 @@
 <ngx-spinner type="ball-atom" name="s2"></ngx-spinner>
 <ngx-spinner type="ball-spin-clockwise-fade-rotating" name="s3"></ngx-spinner>
 <ngx-spinner type="pacman" name="s4"></ngx-spinner>
+
+<app-baskets></app-baskets>

@@ -13,6 +13,7 @@ import {
   DeleteState,
 } from '../delete-dialog/delete-dialog.component';
 import { CustomToastrService, ToastrMessageType, ToastrPosition } from 'src/app/services/ui/custom-toastr.service';
+import { productsController } from 'src/app/constants/api/api-controllers';
 
 declare var $: any;
 
@@ -48,8 +49,8 @@ export class SelectProductImageDialogComponent
 
   @Output() options: Partial<FileUploadOptions> = {
     accept: '.png, .jpg, .jpeg, .gif',
-    action: 'upload',
-    controller: 'products',
+    controller: productsController.controllerName,
+    action: productsController.actions.upload,
     explanation: 'Ürün resmini seçin veya buraya sürükleyin',
     isAdminPage: true,
     queryString: `id=${this.data}`,
