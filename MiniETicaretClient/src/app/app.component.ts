@@ -7,6 +7,7 @@ import {
 } from './services/ui/custom-toastr.service';
 import { Router } from '@angular/router';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
+import { HttpClientService } from './services/common/http-client.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -17,8 +18,16 @@ export class AppComponent {
     public authService: AuthService,
     private toastrService: CustomToastrService,
     private router: Router,
-    private socialAuthService: SocialAuthService
+    private socialAuthService: SocialAuthService,
+    private httpClient: HttpClientService
   ) {
+
+    httpClient.delete({
+      controller: "baskets",
+      action: "RemoveBasketItem"
+    },"4621e1d3-2a1d-4a51-8226-a26b7cd6dd4b").subscribe(data => console.log("get data: ",data))
+
+
     authService.identityCheck();
   }
 

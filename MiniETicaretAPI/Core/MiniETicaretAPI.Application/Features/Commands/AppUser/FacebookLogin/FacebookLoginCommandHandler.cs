@@ -14,7 +14,7 @@ namespace MiniETicaretAPI.Application.Features.Commands.AppUser.FacebookLogin
 
         public async Task<FacebookLoginCommandResponse> Handle(FacebookLoginCommandRequest request, CancellationToken cancellationToken)
         {
-            Dtos.Token token = await _authService.FacebookLoginAsync(request.AuthToken, 15*60);
+            Dtos.Token token = await _authService.FacebookLoginAsync(request.AuthToken, 15 * 60);
             return new() { Token = token };
         }
     }

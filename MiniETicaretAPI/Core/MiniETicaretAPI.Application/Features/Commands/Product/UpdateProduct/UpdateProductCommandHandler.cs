@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.Extensions.Logging;
 using MiniETicaretAPI.Application.Features.Commands.Product.CreateProduct;
 using MiniETicaretAPI.Application.Repositories;
 

@@ -14,6 +14,7 @@ namespace MiniETicaretAPI.Persistence.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IOrderReadRepository _orderReadRepository;
         private readonly IBasketWriteRepository _basketWriteRepository;
+        private readonly IBasketReadRepository _basketReadRepository;
         private readonly IBasketItemWriteRepository _basketItemWriteRepository;
         private readonly IBasketItemReadRepository _basketItemReadRepository;
         private readonly UserManager<AppUser> _userManager;
@@ -23,7 +24,8 @@ namespace MiniETicaretAPI.Persistence.Services
                              IOrderReadRepository orderReadRepository,
                              IBasketWriteRepository basketWriteRepository,
                              IBasketItemWriteRepository basketItemWriteRepository,
-                             IBasketItemReadRepository basketItemReadRepository)
+                             IBasketItemReadRepository basketItemReadRepository,
+                             IBasketReadRepository basketReadRepository)
         {
             _httpContextAccessor = httpContextAccessor;
             _userManager = userManager;
@@ -31,6 +33,7 @@ namespace MiniETicaretAPI.Persistence.Services
             _basketWriteRepository = basketWriteRepository;
             _basketItemWriteRepository = basketItemWriteRepository;
             _basketItemReadRepository = basketItemReadRepository;
+            _basketReadRepository = basketReadRepository;
         }
 
         private async Task<Basket?> GetTargetBasket()
@@ -70,25 +73,60 @@ namespace MiniETicaretAPI.Persistence.Services
         public async Task AddItemToBasketAsync(CreateBasketItemVM createBasketItemVM)
         {
             Basket? basket = await GetTargetBasket();
-            if(basket != null)
+            if (basket != null)
             {
+                BasketItem _basketItem = await _basketItemReadRepository.GetSingleAsync(x => x.BasketId == basket.Id && x.ProductId == Guid.Parse(createBasketItemVM.ProductId));
+
+                if (_basketItem != null)
+                {
+                    _basketItem.Quantity++;
+                }
+                else
+                {
+                    await _basketItemWriteRepository.AddAsync(new()
+                    {
+                        BasketId = basket.Id,
+                        ProductId = Guid.Parse(createBasketItemVM.ProductId),
+                        Quantity = createBasketItemVM.Quantity
+                    });
+                }
+
+                await _basketItemWriteRepository.SaveAsync();
 
             }
         }
 
-        public Task<List<BasketItem>> GetBasketItemAsync()
+        public async Task<List<BasketItem>> GetBasketItemsAsync()
         {
-            throw new NotImplementedException();
+            var basket = await GetTargetBasket();
+
+            Basket? result = await _basketReadRepository
+                .Table
+                .Include(b => b.BasketItems)
+                .ThenInclude(x => x.Product)
+                .FirstOrDefaultAsync(x => x.Id == basket.Id);
+
+            return result.BasketItems.ToList();
         }
 
-        public Task RemoveBasketItemAsync(string basketItemId)
+        public async Task RemoveBasketItemAsync(string basketItemId)
         {
-            throw new NotImplementedException();
+            BasketItem basketItem = await _basketItemReadRepository.GetByIdAsync(basketItemId);
+            if (basketItem != null)
+            {
+                _basketItemWriteRepository.Remove(basketItem);
+                await _basketItemWriteRepository.SaveAsync();
+            }
         }
 
-        public Task UpdateQuantityAsync(UpdateBasketItemVM updateBasketItemVM)
+        public async Task UpdateQuantityAsync(UpdateBasketItemVM updateBasketItemVM)
         {
-            throw new NotImplementedException();
+            var basketItem = await _basketItemReadRepository.GetByIdAsync(updateBasketItemVM.BasketItemId);
+            if (basketItem != null)
+            {
+                basketItem.Quantity = updateBasketItemVM.Quantity;
+                await _basketItemWriteRepository.SaveAsync();
+            }
         }
     }
 }

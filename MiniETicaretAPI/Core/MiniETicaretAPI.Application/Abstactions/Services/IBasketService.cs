@@ -5,7 +5,7 @@ namespace MiniETicaretAPI.Application.Abstactions.Services
 {
     public interface IBasketService
     {
-        public Task<List<BasketItem>> GetBasketItemAsync();
+        public Task<List<BasketItem>> GetBasketItemsAsync();
         public Task AddItemToBasketAsync(CreateBasketItemVM createBasketItemVM);
         public Task UpdateQuantityAsync(UpdateBasketItemVM updateBasketItemVM);
         public Task RemoveBasketItemAsync(string basketItemId);

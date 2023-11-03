@@ -33,7 +33,7 @@ namespace MiniETicaretAPI.Infrastructure.Services.Token
                 notBefore: DateTime.UtcNow,
                 signingCredentials: signingCredentials,
                 expires: token.Expiration,
-                claims: new List<Claim> { new(ClaimTypes.Name, user.UserName)  }
+                claims: new List<Claim> { new(ClaimTypes.Name, user.UserName) }
                 );
 
             JwtSecurityTokenHandler jwtSecurityTokenHandler = new();
