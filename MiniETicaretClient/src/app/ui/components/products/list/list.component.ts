@@ -51,8 +51,11 @@ export class ListComponent extends BaseComponent implements OnInit {
           (errorMessage) => {}
         );
       this.products = data.products;
-
       this.products = this.products.map<List_Product>((product) => {
+        const isItHasStorefrontImage =
+          product.productImageFiles.length > 0 &&
+          product.productImageFiles.findIndex((x) => x.showcase) != -1;
+
         const listProduct: List_Product = {
           id: product.id,
           name: product.name,
@@ -60,8 +63,8 @@ export class ListComponent extends BaseComponent implements OnInit {
           stock: product.stock,
           updatedDate: product.updatedDate,
           createdDate: product.createdDate,
-          imagePath: product.productImageFiles.length
-            ? product.productImageFiles.find((p) => p.showcase).path
+          imagePath: isItHasStorefrontImage
+            ? product.productImageFiles.find((x) => x.showcase).path
             : '',
           productImageFiles: product.productImageFiles,
         };

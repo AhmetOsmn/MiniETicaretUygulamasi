@@ -10,13 +10,19 @@ import { filesController } from 'src/app/constants/api/api-controllers';
 export class FileService {
   constructor(private httpClientService: HttpClientService) {}
 
-  async getBaseStorageUrl() : Promise<BaseUrl> {
+  async getBaseStorageUrl(): Promise<BaseUrl> {
     const getObservable: Observable<BaseUrl> =
-      this.httpClientService.get<BaseUrl>({  
-        controller: filesController.controllerName,        
+      this.httpClientService.get<BaseUrl>({
+        controller: filesController.controllerName,
         action: filesController.actions.getBaseStorageUrl,
       });
 
-    return await firstValueFrom(getObservable);
+    const temp = await firstValueFrom(getObservable);
+    console.log(
+      '🚀 ~ file: file.service.ts:21 ~ FileService ~ getBaseStorageUrl ~ temp:',
+      temp
+    );
+
+    return temp;
   }
 }

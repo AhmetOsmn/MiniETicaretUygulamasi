@@ -3,8 +3,8 @@ export const authController = {
   actions: {
     login: 'Login',
     refreshTokenLogin: 'RefreshTokenLogin',
-    googleLogin: 'GoogleLogin',
-    facebookLogin: 'FacebookLogin',
+    googleLogin: 'google-login',
+    facebookLogin: 'facebook-login',
   },
 };
 
