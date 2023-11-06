@@ -80,6 +80,7 @@
               style="cursor: pointer"
               class="p-1 1px solid border fs-5 rounded-1 bg-light text-info ms-2"
               [icon]="faShopIcon"
+              (click)="loadComponent()"
             ></fa-icon>
           </div>
         </div>
@@ -101,4 +102,17 @@
 <ngx-spinner type="ball-spin-clockwise-fade-rotating" name="s3"></ngx-spinner>
 <ngx-spinner type="pacman" name="s4"></ngx-spinner>
 
-<app-baskets></app-baskets>
+<!-- <app-baskets></app-baskets> -->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl">
+    <ng-template appDynamicLoadComponent></ng-template>
+  </div>
+</div>
