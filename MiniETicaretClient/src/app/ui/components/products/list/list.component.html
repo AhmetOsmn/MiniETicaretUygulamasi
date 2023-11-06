@@ -4,15 +4,15 @@
       <img
         width="250"
         height="250"
-        *ngIf="item.productImageFiles.length"
-        src="{{ baseUrl.url }}/{{ item.imagePath }}"
+        *ngIf="item.imagePath.length > 0"
+        src="{{baseUrl.url}}/{{item.imagePath}}"
         class="card-img-top"
         alt="..."
       />
       <img
         width="250"
         height="250"
-        *ngIf="!item.productImageFiles.length"
+        *ngIf="item.imagePath.length == 0"
         src="../../../../../assets/default-product.jpeg"
         class="card-img-top"
         alt="..."
