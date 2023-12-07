@@ -5,6 +5,14 @@ import { ListBasketItem } from 'src/app/contracts/basket/list_basket_item';
 import { UpdateQuantity } from 'src/app/contracts/basket/update_quantity';
 import { BasketService } from 'src/app/services/common/models/basket.service';
 import { faShoppingBasket } from '@fortawesome/free-solid-svg-icons';
+import { OrderService } from 'src/app/services/common/models/order.service';
+import { CreateOrder } from 'src/app/contracts/order/create_order';
+import {
+  CustomToastrService,
+  ToastrMessageType,
+  ToastrPosition,
+} from 'src/app/services/ui/custom-toastr.service';
+import { Router } from '@angular/router';
 
 declare var $: any;
 
@@ -18,7 +26,10 @@ export class BasketsComponent extends BaseComponent implements OnInit {
 
   constructor(
     spinner: NgxSpinnerService,
-    private basketService: BasketService
+    private basketService: BasketService,
+    private orderService: OrderService,
+    private toastrService: CustomToastrService,
+    private router: Router
   ) {
     super(spinner);
   }
@@ -48,5 +59,19 @@ export class BasketsComponent extends BaseComponent implements OnInit {
     $('.' + basketItemId).fadeOut(500, () =>
       this.hideSpinner(SpinnerType.BallAtom)
     );
+  }
+
+  async completeShopping() {
+    this.showSpinner(SpinnerType.BallAtom);
+    const order: CreateOrder = new CreateOrder();
+    order.address = 'Sarıyer';
+    order.description = 'İlk siparişim.';
+    await this.orderService.createOrder(order);
+    this.hideSpinner(SpinnerType.BallAtom);
+    this.toastrService.message('Sipariş alınmıştır!', 'Sipariş Oluşturuldu!', {
+      messageType: ToastrMessageType.Info,
+      position: ToastrPosition.TopRight,
+    });
+    this.router.navigate(["/"])
   }
 }

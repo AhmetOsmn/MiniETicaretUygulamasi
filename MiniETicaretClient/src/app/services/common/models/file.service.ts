@@ -15,14 +15,7 @@ export class FileService {
       this.httpClientService.get<BaseUrl>({
         controller: filesController.controllerName,
         action: filesController.actions.getBaseStorageUrl,
-      });
-
-    const temp = await firstValueFrom(getObservable);
-    console.log(
-      '🚀 ~ file: file.service.ts:21 ~ FileService ~ getBaseStorageUrl ~ temp:',
-      temp
-    );
-
-    return temp;
+      });   
+    return await firstValueFrom(getObservable);
   }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniETicaretAPI.Persistence.Contexts;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MiniETicaretAPI.Persistence.Migrations
 {
     [DbContext(typeof(MiniETicaretAPIDbContext))]
-    partial class MiniETicaretAPIDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231207183650_mig_16")]
+    partial class mig_16
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -346,6 +348,9 @@ namespace MiniETicaretAPI.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
@@ -354,6 +359,8 @@ namespace MiniETicaretAPI.Persistence.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Orders");
                 });
@@ -503,6 +510,12 @@ namespace MiniETicaretAPI.Persistence.Migrations
 
             modelBuilder.Entity("MiniETicaretAPI.Domain.Entities.Order", b =>
                 {
+                    b.HasOne("MiniETicaretAPI.Domain.Entities.Customer", "Customer")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MiniETicaretAPI.Domain.Entities.Basket", "Basket")
                         .WithOne("Order")
                         .HasForeignKey("MiniETicaretAPI.Domain.Entities.Order", "Id")
@@ -510,6 +523,8 @@ namespace MiniETicaretAPI.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Basket");
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("ProductProductImageFile", b =>
@@ -533,6 +548,11 @@ namespace MiniETicaretAPI.Persistence.Migrations
 
                     b.Navigation("Order")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MiniETicaretAPI.Domain.Entities.Customer", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("MiniETicaretAPI.Domain.Entities.Identity.AppUser", b =>

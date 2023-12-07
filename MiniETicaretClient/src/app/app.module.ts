@@ -38,6 +38,7 @@ import { DynamicLoadComponentDirective } from './directives/common/dynamic-load-
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: HttpErrorHandlerInterceptorService, multi: true},
     { provide: 'baseUrl', useValue: 'https://localhost:7160/api', multi: true },
+    { provide: 'baseSignalRUrl', useValue: 'https://localhost:7160/', multi: true },
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {

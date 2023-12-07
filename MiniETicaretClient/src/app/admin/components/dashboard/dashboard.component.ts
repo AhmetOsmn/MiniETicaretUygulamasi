@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BaseComponent } from 'src/app/base/base.component';
-import { HubUrls } from 'src/app/constants/signalr/hub-URLS';
+import { HubUrls } from 'src/app/constants/signalr/hub-urls';
 import { ReceiveFunctionNames } from 'src/app/constants/signalr/receive-function-names';
 import {
   AlertifyService,
@@ -22,7 +22,8 @@ export class DashboardComponent extends BaseComponent implements OnInit {
     private signalRService: SignalRService
   ) {
     super(spinner);
-    signalRService.start(HubUrls.ProductsHub);
+    // signalRService.start(HubUrls.ProductsHub);
+    signalRService.start(HubUrls.OrdersHub);
   }
 
   ngOnInit(): void {
@@ -32,6 +33,15 @@ export class DashboardComponent extends BaseComponent implements OnInit {
         this.alertify.message(message, {
           messageType: MessageType.Notify,
           position: Position.TopRight,
+        });
+      }
+    );
+    this.signalRService.on(
+      ReceiveFunctionNames.OrderAddedMessage,
+      (message) => {
+        this.alertify.message(message, {
+          messageType: MessageType.Notify,
+          position: Position.TopCenter,
         });
       }
     );

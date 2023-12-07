@@ -3,13 +3,12 @@ import {
   Injectable,
   ViewContainerRef,
 } from '@angular/core';
-import { BaseComponent } from 'src/app/base/base.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DynamicLoadComponentService {
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
+  constructor() {}
 
   async loadComponent(
     component: ComponentType,
@@ -27,7 +26,7 @@ export class DynamicLoadComponentService {
 
     viewContainerRef.clear();
     return viewContainerRef.createComponent(
-      this.componentFactoryResolver.resolveComponentFactory(_component)
+      _component
     );
   }
 }

@@ -128,5 +128,11 @@ namespace MiniETicaretAPI.Persistence.Services
                 await _basketItemWriteRepository.SaveAsync();
             }
         }
+
+        public Basket? GetUserActiveBasket
+        {
+            get => GetTargetBasket().Result;
+        }
+
     }
 }

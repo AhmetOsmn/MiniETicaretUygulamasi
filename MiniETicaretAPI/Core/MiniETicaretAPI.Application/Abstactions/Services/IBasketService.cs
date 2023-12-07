@@ -9,5 +9,6 @@ namespace MiniETicaretAPI.Application.Abstactions.Services
         public Task AddItemToBasketAsync(CreateBasketItemVM createBasketItemVM);
         public Task UpdateQuantityAsync(UpdateBasketItemVM updateBasketItemVM);
         public Task RemoveBasketItemAsync(string basketItemId);
+        public Basket? GetUserActiveBasket { get; }
     }
 }

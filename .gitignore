@@ -511,3 +511,4 @@ FodyWeavers.xsd
 /MiniETicaretAPI/Core/MiniETicaretAPI.Application/obj/Debug/net6.0/MiniETicaretAPI.Application.GeneratedMSBuildEditorConfig.editorconfig
 /MiniETicaretAPI/.vs/MiniETicaretAPI/v17/.suo
 /MiniETicaretAPI/.gitignore
+/MiniETicaretAPI/Core/MiniETicaretAPI.Domain/obj/Debug/net6.0/MiniETicaretAPI.Domain.AssemblyInfoInputs.cache

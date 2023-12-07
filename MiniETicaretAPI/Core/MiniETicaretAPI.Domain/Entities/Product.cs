@@ -8,7 +8,7 @@ namespace MiniETicaretAPI.Domain.Entities
         public float Price { get; set; }
         public int Stock { get; set; }
 
-        public ICollection<Order> Orders { get; set; }
+        //public ICollection<Order> Orders { get; set; }
         public ICollection<ProductImageFile> ProductImageFiles { get; set; }
         public ICollection<BasketItem> BasketItems { get; set; }
     }

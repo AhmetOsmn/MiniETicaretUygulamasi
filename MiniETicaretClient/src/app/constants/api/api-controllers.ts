@@ -46,3 +46,10 @@ export const usersController = {
     createUser: '',
   },
 };
+
+export const ordersController = {
+  controllerName: 'orders',
+  actions: {
+    createOrder: '',
+  },
+};

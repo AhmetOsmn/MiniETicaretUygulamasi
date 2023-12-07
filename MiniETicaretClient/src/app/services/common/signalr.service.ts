@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import {
   HubConnection,
   HubConnectionBuilder,
@@ -9,7 +9,7 @@ import {
   providedIn: 'root',
 })
 export class SignalRService {
-  constructor() {}
+  constructor(@Inject("baseSignalRUrl") private baseSignalRUrl: string) {}
   private _connection: HubConnection;
   get connection(): HubConnection {
     return this._connection;
@@ -21,7 +21,7 @@ export class SignalRService {
     ) {
       const builder: HubConnectionBuilder = new HubConnectionBuilder();
       const hubConnection: HubConnection = builder
-        .withUrl(`https://localhost:7160/${hubUrl}`)
+        .withUrl(this.baseSignalRUrl+hubUrl)
         .withAutomaticReconnect()
         .build();
 
