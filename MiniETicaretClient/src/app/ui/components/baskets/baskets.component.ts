@@ -13,6 +13,15 @@ import {
   ToastrPosition,
 } from 'src/app/services/ui/custom-toastr.service';
 import { Router } from '@angular/router';
+import { DialogService } from 'src/app/services/common/dialog.service';
+import {
+  BasketItemDeleteState,
+  BasketItemRemoveDialogComponent,
+} from 'src/app/dialogs/basket-item-remove-dialog/basket-item-remove-dialog.component';
+import {
+  CompleteShoppingDialogComponent,
+  CompleteShoppingState,
+} from 'src/app/dialogs/complete-shopping-dialog/complete-shopping-dialog.component';
 
 declare var $: any;
 
@@ -29,7 +38,8 @@ export class BasketsComponent extends BaseComponent implements OnInit {
     private basketService: BasketService,
     private orderService: OrderService,
     private toastrService: CustomToastrService,
-    private router: Router
+    private router: Router,
+    private dialogService: DialogService
   ) {
     super(spinner);
   }
@@ -53,25 +63,44 @@ export class BasketsComponent extends BaseComponent implements OnInit {
     this.hideSpinner(SpinnerType.BallAtom);
   }
 
-  async removeBasketItem(basketItemId: string) {
-    this.showSpinner(SpinnerType.BallAtom);
-    await this.basketService.removeBasketItem(basketItemId);
-    $('.' + basketItemId).fadeOut(500, () =>
-      this.hideSpinner(SpinnerType.BallAtom)
-    );
+  removeBasketItem(basketItemId: string) {
+    $('#basketModal').modal('hide');
+    this.dialogService.openDialog({
+      componentType: BasketItemRemoveDialogComponent,
+      data: BasketItemDeleteState.Yes,
+      afterClosed: async () => {
+        this.showSpinner(SpinnerType.BallAtom);
+        await this.basketService.removeBasketItem(basketItemId);
+        $('.' + basketItemId).fadeOut(500, () =>
+          this.hideSpinner(SpinnerType.BallAtom)
+        );
+        $('#basketModal').modal('show');
+      },
+    });
   }
 
   async completeShopping() {
-    this.showSpinner(SpinnerType.BallAtom);
-    const order: CreateOrder = new CreateOrder();
-    order.address = 'Sarıyer';
-    order.description = 'İlk siparişim.';
-    await this.orderService.createOrder(order);
-    this.hideSpinner(SpinnerType.BallAtom);
-    this.toastrService.message('Sipariş alınmıştır!', 'Sipariş Oluşturuldu!', {
-      messageType: ToastrMessageType.Info,
-      position: ToastrPosition.TopRight,
+    $('#basketModal').modal('hide');
+    this.dialogService.openDialog({
+      componentType: CompleteShoppingDialogComponent,
+      data: CompleteShoppingState.Yes,
+      afterClosed: async () => {
+        this.showSpinner(SpinnerType.BallAtom);
+        const order: CreateOrder = new CreateOrder();
+        order.address = 'Sarıyer';
+        order.description = 'İlk siparişim.';
+        await this.orderService.createOrder(order);
+        this.hideSpinner(SpinnerType.BallAtom);
+        this.toastrService.message(
+          'Sipariş alınmıştır!',
+          'Sipariş Oluşturuldu!',
+          {
+            messageType: ToastrMessageType.Info,
+            position: ToastrPosition.TopRight,
+          }
+        );
+        this.router.navigate(['/']);
+      },
     });
-    this.router.navigate(["/"])
   }
 }
