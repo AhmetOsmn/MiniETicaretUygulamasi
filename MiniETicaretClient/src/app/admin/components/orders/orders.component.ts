@@ -12,7 +12,5 @@ export class OrdersComponent extends BaseComponent implements OnInit {
     super(spinner);
   }
 
-  ngOnInit(): void {
-    this.showSpinner(SpinnerType.BallClipRotateMultiple);
-  }
+  ngOnInit(): void {}
 }

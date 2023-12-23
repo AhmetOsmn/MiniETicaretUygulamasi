@@ -26,7 +26,10 @@ namespace MiniETicaretAPI.Persistence.Contexts
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Order>().HasKey(b => b.Id);
+            builder.Entity<Order>().HasKey(o => o.Id);
+
+            builder.Entity<Order>().HasIndex(o => o.OrderCode).IsUnique();
+
             builder.Entity<Basket>().HasOne(b => b.Order).WithOne(o => o.Basket).HasForeignKey<Order>(b => b.Id);
 
             base.OnModelCreating(builder);
