@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MiniETicaretAPI.Application.Abstactions.Services;
 using MiniETicaretAPI.Application.Features.Commands.Product.Order.CreateOrder;
 using MiniETicaretAPI.Application.Features.Queries.Order.GetAllOrders;
 using MiniETicaretAPI.Application.Features.Queries.Order.GetOrderById;
@@ -13,10 +14,12 @@ namespace MiniETicaretAPI.API.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IMailService _mailService;
 
-        public OrdersController(IMediator mediator)
+        public OrdersController(IMediator mediator, IMailService mailService)
         {
             _mediator = mediator;
+            _mailService = mailService;
         }
 
         [HttpPost]
