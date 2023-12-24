@@ -1,8 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MiniETicaretAPI.Application.Features.Commands.Order.CreateOrder;
+using MiniETicaretAPI.Application.Features.Commands.Product.Order.CreateOrder;
 using MiniETicaretAPI.Application.Features.Queries.Order.GetAllOrders;
+using MiniETicaretAPI.Application.Features.Queries.Order.GetOrderById;
 
 namespace MiniETicaretAPI.API.Controllers
 {
@@ -29,6 +30,13 @@ namespace MiniETicaretAPI.API.Controllers
         public async Task<IActionResult> GetAllOrders([FromQuery] GetAllOrdersQueryRequest getAllOrdersQueryRequest)
         {
             GetAllOrdersQueryResponse response = await _mediator.Send(getAllOrdersQueryRequest);
+            return Ok(response);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetOrderById([FromRoute] GetOrderByIdQueryRequest getOrderByIdQueryRequest)
+        {
+            GetOrderByIdQueryResponse response = await _mediator.Send(getOrderByIdQueryRequest);
             return Ok(response);
         }
     }

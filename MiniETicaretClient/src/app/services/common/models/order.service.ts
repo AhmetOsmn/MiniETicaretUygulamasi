@@ -4,6 +4,7 @@ import { CreateOrder } from 'src/app/contracts/order/create_order';
 import { ordersController } from 'src/app/constants/api/api-controllers';
 import { Observable, firstValueFrom } from 'rxjs';
 import { ListOrder } from 'src/app/contracts/order/list_order';
+import { SingleOrder } from 'src/app/contracts/order/single_order';
 
 @Injectable({
   providedIn: 'root',
@@ -37,8 +38,39 @@ export class OrderService {
     });
 
     const promiseData = firstValueFrom(observable);
-    promiseData.then((value) => {successCallBack()})
-    .catch((error) => {errorCallBack(error)});
+    promiseData
+      .then((value) => {
+        if (successCallBack) successCallBack();
+      })
+      .catch((error) => {
+        if (errorCallBack) errorCallBack(error);
+      });
+
+    return await promiseData;
+  }
+
+  async getOrderById(
+    id: string,
+    successCallBack?: () => void,
+    errorCallBack?: (errorMessage: string) => void
+  ) {
+    const observable: Observable<SingleOrder> =
+      this.httpClientService.get<SingleOrder>(
+        {
+          controller: ordersController.controllerName,
+        },
+        id
+      );
+
+    const promiseData = firstValueFrom(observable);
+
+    promiseData
+      .then((value) => {
+        if (successCallBack) successCallBack();
+      })
+      .catch((error) => {
+        if (errorCallBack) errorCallBack(error);
+      });
 
     return await promiseData;
   }

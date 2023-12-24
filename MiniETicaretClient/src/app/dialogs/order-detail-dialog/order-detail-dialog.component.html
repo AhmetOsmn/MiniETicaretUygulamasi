@@ -1,0 +1,77 @@
+<h2 mat-dialog-title>Sipariş Detayı</h2>
+<mat-dialog-content class="mat-typography">
+  <mat-toolbar color="primary">
+    <span style="color: white; font-weight: bold"
+      >Sipariş Kodu: {{ singleOrder?.orderCode || "" }}</span
+    >
+  </mat-toolbar>
+
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    class="mat-elevation-z8 demo-table"
+  >
+    <!-- Name Column -->
+    <ng-container matColumnDef="productName">
+      <th mat-header-cell *matHeaderCellDef>Product Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.productName }}</td>
+    </ng-container>
+
+    <!-- Price Column -->
+    <ng-container matColumnDef="unitPrice">
+      <th mat-header-cell *matHeaderCellDef>Unit Price</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.unitPrice | currency : "₺" }}
+      </td>
+    </ng-container>
+
+    <!-- Quantity Column -->
+    <ng-container matColumnDef="quantity">
+      <th mat-header-cell *matHeaderCellDef>Quantity</th>
+      <td mat-cell *matCellDef="let element">{{ element.quantity }}</td>
+    </ng-container>
+
+    <!-- Total Price Column -->
+    <ng-container matColumnDef="totalPrice">
+      <th mat-header-cell *matHeaderCellDef>Total</th>
+      <td mat-cell *matCellDef="let element" style="color: green">
+        {{ element.unitPrice * element.quantity | currency : "₺" }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr
+      mat-row
+      (click)="clickedRows.add(row)"
+      [class.demo-row-is-clicked]="clickedRows.has(row)"
+      *matRowDef="let row; columns: displayedColumns"
+    ></tr>
+  </table>
+
+  <div style="background-color: lightblue; padding: 10px; margin-bottom: 20px">
+    <div style="display: flex; justify-content: space-between">
+      <div style="flex: 1"><strong>Description:</strong> {{ singleOrder?.description }}</div>
+      <div style="flex: 1">
+        <strong>Created Date:</strong> {{ singleOrder?.createdDate | date }}
+      </div>
+    </div>
+    <div><strong>Address:</strong> {{ singleOrder?.address }}</div>
+  </div>
+
+  <div
+    style="
+      text-align: right;
+      font-weight: bold;
+      margin-right: 25px;
+      margin-top: 25px;
+    "
+  >
+    Total Price: {{ totalPrice | currency : "₺" }}
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Kapat</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>
+    Siparişi Tamamlama
+  </button>
+</mat-dialog-actions>
