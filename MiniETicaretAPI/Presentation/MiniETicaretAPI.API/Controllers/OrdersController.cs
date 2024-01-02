@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MiniETicaretAPI.Application.Abstactions.Services;
-using MiniETicaretAPI.Application.Features.Commands.Product.Order.CreateOrder;
+using MiniETicaretAPI.Application.Features.Commands.Basket.Product.Order.CreateOrder;
 using MiniETicaretAPI.Application.Features.Queries.Order.GetAllOrders;
 using MiniETicaretAPI.Application.Features.Queries.Order.GetOrderById;
 

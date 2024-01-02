@@ -1,14 +1,14 @@
+import { SocialUser } from '@abacritt/angularx-social-login';
 import { Injectable } from '@angular/core';
-import { HttpClientService } from '../http-client.service';
+import { Observable, firstValueFrom } from 'rxjs';
+import { authController } from 'src/app/constants/api/api-controllers';
+import { LoginResponse } from 'src/app/contracts/users/login_response';
 import {
   CustomToastrService,
   ToastrMessageType,
   ToastrPosition,
 } from '../../ui/custom-toastr.service';
-import { Observable, firstValueFrom } from 'rxjs';
-import { LoginResponse } from 'src/app/contracts/users/login_response';
-import { SocialUser } from '@abacritt/angularx-social-login';
-import { authController } from 'src/app/constants/api/api-controllers';
+import { HttpClientService } from '../http-client.service';
 
 @Injectable({
   providedIn: 'root',
@@ -150,5 +150,39 @@ export class UserAuthService {
     }
 
     callBackFunction();
+  }
+
+  async passwordReset(email: string, callBackFunction?: () => void) {
+    const observable: Observable<any> = this.httpClientService.post<any>(
+      {
+        controller: authController.controllerName,
+        action: authController.actions.passwordReset,
+      },
+      { email }
+    );
+
+    await firstValueFrom(observable);
+
+    if (callBackFunction) callBackFunction();
+  }
+
+  async verifyResetToken(
+    resetToken: string,
+    userId: string,
+    callBackFunction?: () => void
+  ): Promise<boolean> {
+    const observable: Observable<any> = this.httpClientService.post(
+      {
+        controller: authController.controllerName,
+        action: authController.actions.verifyResetToken,
+      },
+      { resetToken: resetToken, userId: userId }
+    );
+
+    const state = await firstValueFrom(observable);
+
+    if (callBackFunction) callBackFunction();
+
+    return state;
   }
 }

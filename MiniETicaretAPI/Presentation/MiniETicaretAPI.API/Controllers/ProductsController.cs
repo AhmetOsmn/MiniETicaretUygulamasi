@@ -1,8 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MiniETicaretAPI.Application.Features.Commands.Product.CreateProduct;
-using MiniETicaretAPI.Application.Features.Commands.Product.DeleteProduct;
+using MiniETicaretAPI.Application.Features.Commands.Basket.Product.CreateProduct;
+using MiniETicaretAPI.Application.Features.Commands.Basket.Product.DeleteProduct;
+using MiniETicaretAPI.Application.Features.Commands.Basket.Product.UpdateProduct;
 using MiniETicaretAPI.Application.Features.Commands.ProductImageFile.ChangeShowcaseProductImage;
 using MiniETicaretAPI.Application.Features.Commands.ProductImageFile.DeleteProductImage;
 using MiniETicaretAPI.Application.Features.Commands.ProductImageFile.UploadProductImage;

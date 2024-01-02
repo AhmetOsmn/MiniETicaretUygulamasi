@@ -5,6 +5,8 @@ export const authController = {
     refreshTokenLogin: 'RefreshTokenLogin',
     googleLogin: 'google-login',
     facebookLogin: 'facebook-login',
+    passwordReset: 'password-reset',
+    verifyResetToken: 'verify-reset-token',
   },
 };
 
@@ -44,6 +46,7 @@ export const usersController = {
   controllerName: 'users',
   actions: {
     createUser: '',
+    updatePassword: 'update-password',
   },
 };
 

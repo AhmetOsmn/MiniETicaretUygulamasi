@@ -2,7 +2,7 @@
 using MiniETicaretAPI.Application.Abstactions.Hubs;
 using MiniETicaretAPI.Application.Abstactions.Services;
 
-namespace MiniETicaretAPI.Application.Features.Commands.Product.Order.CreateOrder
+namespace MiniETicaretAPI.Application.Features.Commands.Basket.Product.Order.CreateOrder
 {
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommandRequest, CreateOrderCommandResponse>
     {

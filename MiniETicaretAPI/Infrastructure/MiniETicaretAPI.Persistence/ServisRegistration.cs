@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MiniETicaretAPI.Application.Abstactions.Services;
 using MiniETicaretAPI.Application.Abstactions.Services.Authentications;
@@ -23,7 +24,7 @@ namespace MiniETicaretAPI.Persistence
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
-            }).AddEntityFrameworkStores<MiniETicaretAPIDbContext>();
+            }).AddEntityFrameworkStores<MiniETicaretAPIDbContext>().AddDefaultTokenProviders();
 
 
             #region Repositories

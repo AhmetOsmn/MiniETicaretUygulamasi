@@ -18,12 +18,12 @@ namespace MiniETicaretAPI.Infrastructure.Services
             _mailPassword = Environment.GetEnvironmentVariable(_configuration["Mail:Password"]) ?? "";
         }
 
-        public async Task SendMessageAsync(string to, string subject, string body, bool isBodyHtml = true)
+        public async Task SendMailAsync(string to, string subject, string body, bool isBodyHtml = true)
         {
-            await SendMessageAsync(new[] { to }, subject, body, isBodyHtml);
+            await SendMailAsync(new[] { to }, subject, body, isBodyHtml);
         }
 
-        public async Task SendMessageAsync(string[] tos, string subject, string body, bool isBodyHtml = true)
+        public async Task SendMailAsync(string[] tos, string subject, string body, bool isBodyHtml = true)
         {
             MailMessage mail = new();
             mail.IsBodyHtml = isBodyHtml;
@@ -40,6 +40,21 @@ namespace MiniETicaretAPI.Infrastructure.Services
             smtp.Port = Convert.ToInt32(_configuration["Mail:Port"]);
             smtp.Host = _configuration["Mail:Server"];
             await smtp.SendMailAsync(mail);
+        }
+
+        public async Task SendPasswordResetMailAsync(string to, string userId, string resetToken)
+        {
+            StringBuilder stringBuilder = new();
+            stringBuilder.AppendLine("Merhaba <br> Eğer yeni şifre talebinde bulunduysanız aşağıda ki linkten şifrenizi yenileyebilirsiniz. <br><strong><a target=\"_blank\" href=\"");
+            stringBuilder.AppendLine(_configuration["AngularClient:Url"]);
+            stringBuilder.AppendLine("/update-password/");
+            stringBuilder.AppendLine(userId);
+            stringBuilder.AppendLine("/");
+            stringBuilder.AppendLine(resetToken);
+            stringBuilder.AppendLine("\">Şifre Yenileme Linki</a></strong>");
+            stringBuilder.AppendLine("<br><br> Eğer yeni şifre talebinde bulunmadıysanız bu maili dikkate almayınız.");
+            
+            await SendMailAsync(to, "Şifre Yenileme", stringBuilder.ToString());            
         }
     }
 }

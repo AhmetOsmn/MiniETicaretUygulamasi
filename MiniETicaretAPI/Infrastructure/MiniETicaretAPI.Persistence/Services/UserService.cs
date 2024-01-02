@@ -2,6 +2,7 @@
 using MiniETicaretAPI.Application.Abstactions.Services;
 using MiniETicaretAPI.Application.Dtos.User;
 using MiniETicaretAPI.Application.Exceptions;
+using MiniETicaretAPI.Application.Helpers;
 using MiniETicaretAPI.Domain.Entities.Identity;
 
 namespace MiniETicaretAPI.Persistence.Services
@@ -38,7 +39,23 @@ namespace MiniETicaretAPI.Persistence.Services
             return response;
         }
 
-        public async Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime accessTokenExpireDate, int addOnAccesTokenExpireDate)
+        public async Task UpdatePasswordAsync(string userId, string newPassword, string resetToken)
+        {
+            AppUser user = await _userManager.FindByIdAsync(userId);
+
+            if(user != null)
+            {
+                resetToken = resetToken.UrlDecode();
+                IdentityResult result = await _userManager.ResetPasswordAsync(user, resetToken, newPassword);          
+                
+                if(result.Succeeded)
+                    await _userManager.UpdateSecurityStampAsync(user);
+                else 
+                    throw new PasswordUpdateFailedException();
+            }                           
+        }
+
+        public async Task UpdateRefreshTokenAsync(string refreshToken, AppUser user, DateTime accessTokenExpireDate, int addOnAccesTokenExpireDate)
         {
             if (user != null)
             {

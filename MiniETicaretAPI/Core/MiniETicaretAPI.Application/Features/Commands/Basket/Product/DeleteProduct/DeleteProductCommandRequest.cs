@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace MiniETicaretAPI.Application.Features.Commands.Product.DeleteProduct
+namespace MiniETicaretAPI.Application.Features.Commands.Basket.Product.DeleteProduct
 {
     public class DeleteProductCommandRequest : IRequest
     {
