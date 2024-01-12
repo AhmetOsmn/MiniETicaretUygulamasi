@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using MiniETicaretAPI.Application.Repositories;
 
-namespace MiniETicaretAPI.Application.Features.Commands.Basket.Product.UpdateProduct
+namespace MiniETicaretAPI.Application.Features.Commands.Product.UpdateProduct
 {
     public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommandRequest>
     {

@@ -5,6 +5,7 @@ export class SingleOrder {
   createdDate: Date;
   description: string;
   orderCode: string;
+  completed: boolean;
 }
 
 export class BasketItem {

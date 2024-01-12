@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClientService } from '../http-client.service';
-import { CreateOrder } from 'src/app/contracts/order/create_order';
-import { ordersController } from 'src/app/constants/api/api-controllers';
 import { Observable, firstValueFrom } from 'rxjs';
+import { ordersController } from 'src/app/constants/api/api-controllers';
+import { CreateOrder } from 'src/app/contracts/order/create_order';
 import { ListOrder } from 'src/app/contracts/order/list_order';
 import { SingleOrder } from 'src/app/contracts/order/single_order';
+import { HttpClientService } from '../http-client.service';
 
 @Injectable({
   providedIn: 'root',
@@ -73,5 +73,17 @@ export class OrderService {
       });
 
     return await promiseData;
+  }
+
+  async completeOrder(id: string) {
+    const observable: Observable<any> = this.httpClientService.get(
+      {
+        controller: ordersController.controllerName,
+        action: ordersController.actions.completeOrder,
+      },
+      id
+    );
+
+    await firstValueFrom(observable);
   }
 }

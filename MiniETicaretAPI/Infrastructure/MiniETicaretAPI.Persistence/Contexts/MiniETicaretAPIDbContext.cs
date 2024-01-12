@@ -16,6 +16,7 @@ namespace MiniETicaretAPI.Persistence.Contexts
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<BasketItem> BasketItems { get; set; }
+        public DbSet<CompletedOrder> CompletedOrders { get; set; }
 
         #region Table Per Hierarcy Yaklaşımı
         public DbSet<Domain.Entities.File> Files { get; set; }
@@ -31,6 +32,8 @@ namespace MiniETicaretAPI.Persistence.Contexts
             builder.Entity<Order>().HasIndex(o => o.OrderCode).IsUnique();
 
             builder.Entity<Basket>().HasOne(b => b.Order).WithOne(o => o.Basket).HasForeignKey<Order>(b => b.Id);
+
+            builder.Entity<Order>().HasOne(o => o.CompletedOrder).WithOne(co => co.Order).HasForeignKey<CompletedOrder>(co => co.OrderId);
 
             base.OnModelCreating(builder);
         }

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace MiniETicaretAPI.Application.Features.Commands.Basket.Product.Order.CreateOrder
+namespace MiniETicaretAPI.Application.Features.Commands.Order.CreateOrder
 {
     public class CreateOrderCommandRequest : IRequest<CreateOrderCommandResponse>
     {

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace MiniETicaretAPI.Application.Features.Commands.Basket.Product.CreateProduct
+namespace MiniETicaretAPI.Application.Features.Commands.Product.CreateProduct
 {
     public class CreateProductCommandRequest : IRequest
     {

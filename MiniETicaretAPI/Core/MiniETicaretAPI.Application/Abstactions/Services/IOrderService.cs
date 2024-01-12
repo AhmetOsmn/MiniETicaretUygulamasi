@@ -7,5 +7,6 @@ namespace MiniETicaretAPI.Application.Abstactions.Services
         Task CreateOrderAsync(CreateOrderDto createOrderDto);
         Task<ListOrder> GetAllOrdersAsync(int page, int size);
         Task<SingleOrder> GetOrderByIdAsync(string id);
+        Task CompleteOrderAsync(string id);
     }
 }

@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { ListOrder } from 'src/app/contracts/order/list_order';
-import { OrderDetailDialogComponent, OrderDetailDialogState } from 'src/app/dialogs/order-detail-dialog/order-detail-dialog.component';
+import { OrderDetailDialogComponent } from 'src/app/dialogs/order-detail-dialog/order-detail-dialog.component';
 import {
   AlertifyService,
   MessageType,
@@ -33,6 +33,7 @@ export class ListComponent extends BaseComponent implements OnInit {
     'userName',
     'totalPrice',
     'createdDate',
+    'completed',
     'viewDetail',
     'delete'
   ];

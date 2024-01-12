@@ -7,6 +7,7 @@
         public object BasketItems { get; set; } = null!;
         public DateTime CreatedDate { get; set; }
         public string Description { get; set; } = null!;
-        public string OrderCode { get; set; } = null!;      
+        public string OrderCode { get; set; } = null!;
+        public bool Completed { get; set; }
     }
 }

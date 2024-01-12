@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MiniETicaretAPI.Application.Abstactions.Services;
-using MiniETicaretAPI.Application.Features.Commands.Basket.Product.Order.CreateOrder;
+using MiniETicaretAPI.Application.Features.Commands.Order.CompleteOrder;
+using MiniETicaretAPI.Application.Features.Commands.Order.CreateOrder;
 using MiniETicaretAPI.Application.Features.Queries.Order.GetAllOrders;
 using MiniETicaretAPI.Application.Features.Queries.Order.GetOrderById;
 
@@ -41,6 +42,13 @@ namespace MiniETicaretAPI.API.Controllers
         {
             GetOrderByIdQueryResponse response = await _mediator.Send(getOrderByIdQueryRequest);
             return Ok(response);
+        }
+
+        [HttpGet("complete-order/{id}")]
+        public async Task<IActionResult> CompleteOrder([FromRoute] CompleteOrderCommandRequest completeOrderCommandRequest)
+        {
+            CompleteOrderCommandResponse response = await _mediator.Send(completeOrderCommandRequest);
+            return Ok(response); 
         }
     }
 }

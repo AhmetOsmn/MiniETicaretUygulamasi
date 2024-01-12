@@ -54,5 +54,6 @@ export const ordersController = {
   controllerName: 'orders',
   actions: {
     createOrder: '',
+    completeOrder: 'complete-order',
   },
 };
