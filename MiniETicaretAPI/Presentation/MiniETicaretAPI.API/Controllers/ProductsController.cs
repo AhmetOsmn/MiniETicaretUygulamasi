@@ -1,6 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MiniETicaretAPI.Application.Consts;
+using MiniETicaretAPI.Application.CustomAttributes;
+using MiniETicaretAPI.Application.Enums;
 using MiniETicaretAPI.Application.Features.Commands.Product.CreateProduct;
 using MiniETicaretAPI.Application.Features.Commands.Product.DeleteProduct;
 using MiniETicaretAPI.Application.Features.Commands.Product.UpdateProduct;
@@ -41,6 +44,7 @@ namespace MiniETicaretAPI.API.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Product, Definition = "Create Product", Action = ActionType.Writing)]
         public async Task<IActionResult> Post(CreateProductCommandRequest createProductCommandRequest)
         {
             await _mediator.Send(createProductCommandRequest);
@@ -49,6 +53,7 @@ namespace MiniETicaretAPI.API.Controllers
 
         [HttpPut]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Product, Definition = "Update Product", Action = ActionType.Updating)]
         public async Task<IActionResult> Put(UpdateProductCommandRequest updateProductCommandRequest)
         {
             await _mediator.Send(updateProductCommandRequest);
@@ -57,6 +62,7 @@ namespace MiniETicaretAPI.API.Controllers
 
         [HttpDelete("{Id}")]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Product, Definition = "Delete Product", Action = ActionType.Deleting)]
         public async Task<IActionResult> Delete([FromRoute] DeleteProductCommandRequest deleteProductCommandRequest)
         {
             await _mediator.Send(deleteProductCommandRequest);
@@ -65,6 +71,7 @@ namespace MiniETicaretAPI.API.Controllers
 
         [HttpPost("[action]")]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Product, Definition = "Upload Image", Action = ActionType.Writing)]
         public async Task<IActionResult> Upload([FromQuery] UploadProductImageCommandRequest uploadProductImageCommandRequest)
         {
             uploadProductImageCommandRequest.Files = Request.Form.Files;
@@ -74,6 +81,7 @@ namespace MiniETicaretAPI.API.Controllers
 
         [HttpGet("[action]/{Id}")]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Product, Definition = "Get Product Images", Action = ActionType.Reading)]
         public async Task<IActionResult> GetProductImages([FromRoute] GetProductImagesQueryRequest getProductImagesQueryRequest)
         {
             GetProductImagesQueryResponse response = await _mediator.Send(getProductImagesQueryRequest);
@@ -82,6 +90,7 @@ namespace MiniETicaretAPI.API.Controllers
 
         [HttpDelete("[action]/{ProductId}")]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Product, Definition = "Delete Product Image", Action = ActionType.Deleting)]
         public async Task<IActionResult> DeleteProductImage([FromRoute] DeleteProductImageCommandRequest deleteProductImageCommandRequest, [FromQuery] string imageId)
         {
             deleteProductImageCommandRequest.ImageId = imageId;
@@ -91,6 +100,7 @@ namespace MiniETicaretAPI.API.Controllers
 
         [HttpGet("[action]")]
         [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Product, Definition = "Change Showcase", Action = ActionType.Updating)]
         public async Task<IActionResult> ChangeShowcase([FromQuery] ChangeShowcaseProductImageCommandRequest changeShowcaseProductImageCommandRequest)
         {
             await _mediator.Send(changeShowcaseProductImageCommandRequest);
