@@ -18,6 +18,18 @@ namespace MiniETicaretAPI.Infrastructure.Services
             _mailPassword = Environment.GetEnvironmentVariable(_configuration["Mail:Password"]) ?? "";
         }
 
+        public async Task SendCompletedOrderMailAsync(string to, string orderCode, DateTime orderDate, string nameSurname)
+        {
+            string mail = $"Merhaba {nameSurname}, <br>" +
+                            $"Siparişiniz alınmıştır. <br>" +
+                            $"Sipariş Kodu: {orderCode} <br>" +
+                            $"Sipariş Tarihi: {orderDate} <br>" +
+                            $"Siparişinizin durumunu takip edebilirsiniz. <br>" +
+                            $"Teşekkürler.";
+
+            await SendMailAsync(to, $"{orderCode} numaralı siparişiniz tamamlandı!", mail);
+        }
+
         public async Task SendMailAsync(string to, string subject, string body, bool isBodyHtml = true)
         {
             await SendMailAsync(new[] { to }, subject, body, isBodyHtml);
@@ -39,7 +51,9 @@ namespace MiniETicaretAPI.Infrastructure.Services
             smtp.Credentials = new NetworkCredential(_mailUserName, _mailPassword);
             smtp.Port = Convert.ToInt32(_configuration["Mail:Port"]);
             smtp.Host = _configuration["Mail:Server"];
-            await smtp.SendMailAsync(mail);
+
+            // mail serverı olmadığı için yorum satırına aldım.
+            //await smtp.SendMailAsync(mail);
         }
 
         public async Task SendPasswordResetMailAsync(string to, string userId, string resetToken)
@@ -53,8 +67,8 @@ namespace MiniETicaretAPI.Infrastructure.Services
             stringBuilder.AppendLine(resetToken);
             stringBuilder.AppendLine("\">Şifre Yenileme Linki</a></strong>");
             stringBuilder.AppendLine("<br><br> Eğer yeni şifre talebinde bulunmadıysanız bu maili dikkate almayınız.");
-            
-            await SendMailAsync(to, "Şifre Yenileme", stringBuilder.ToString());            
+
+            await SendMailAsync(to, "Şifre Yenileme", stringBuilder.ToString());
         }
     }
 }

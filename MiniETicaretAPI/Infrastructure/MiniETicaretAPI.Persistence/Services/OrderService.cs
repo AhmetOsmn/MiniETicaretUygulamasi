@@ -88,19 +88,19 @@ namespace MiniETicaretAPI.Persistence.Services
                                                 .ThenInclude(bi => bi.Product);
 
             var joinedData = await (from order in data
-                              join completedOrder in _completedOrderReadRepository.Table
-                                on order.Id equals completedOrder.OrderId into co
-                              from _co in co.DefaultIfEmpty()                              
-                              select new
-                              {
-                                  order.Id,
-                                  order.CreatedDate,
-                                  order.OrderCode,
-                                  order.Basket,
-                                  Completed = _co != null,
-                                  order.Address,
-                                  order.Description,
-                              }).FirstOrDefaultAsync(o => o.Id == Guid.Parse(id)); ;
+                                    join completedOrder in _completedOrderReadRepository.Table
+                                      on order.Id equals completedOrder.OrderId into co
+                                    from _co in co.DefaultIfEmpty()
+                                    select new
+                                    {
+                                        order.Id,
+                                        order.CreatedDate,
+                                        order.OrderCode,
+                                        order.Basket,
+                                        Completed = _co != null,
+                                        order.Address,
+                                        order.Description,
+                                    }).FirstOrDefaultAsync(o => o.Id == Guid.Parse(id)); ;
 
 
             return new()
@@ -121,17 +121,26 @@ namespace MiniETicaretAPI.Persistence.Services
 
         }
 
-        public async Task CompleteOrderAsync(string id)
+        public async Task<Application.Dtos.Order.CompletedOrder?> CompleteOrderAsync(string id)
         {
-            Order order = await _orderReadRepository.GetByIdAsync(id);
-            if (order != null)
+            Order? order = await _orderReadRepository.Table.Include(o => o.Basket).ThenInclude(b => b.User).FirstOrDefaultAsync(x => x.Id == Guid.Parse(id));
+            if (order == null) return null;
+
+            await _completedOrderWriteRepository.AddAsync(new()
             {
-                await _completedOrderWriteRepository.AddAsync(new()
-                {
-                    OrderId = Guid.Parse(id),
-                });
-                await _completedOrderWriteRepository.SaveAsync();
-            }
+                OrderId = Guid.Parse(id),
+            });
+            int saveResult = await _completedOrderWriteRepository.SaveAsync();
+
+            if (saveResult < 0) return null;
+
+            return new Application.Dtos.Order.CompletedOrder
+            {
+                Email = order.Basket.User.Email,
+                OrderCode = order.OrderCode,
+                OrderDate = order.CreatedDate,                
+                NameSurname = order.Basket.User.NameSurname,                   
+            };
         }
     }
 }
