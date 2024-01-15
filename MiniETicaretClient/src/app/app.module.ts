@@ -1,19 +1,19 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module';
-import { AdminModule } from './admin/admin.module';
-import { UiModule } from './ui/ui.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxSpinnerModule } from 'ngx-spinner';
+import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtModule } from '@auth0/angular-jwt';
-import { ToastrModule } from 'ngx-toastr';
-import { LoginComponent } from './ui/components/login/login.component';
-import { GoogleLoginProvider, FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { HttpErrorHandlerInterceptorService } from './services/common/http-error-handler-interceptor.service';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ToastrModule } from 'ngx-toastr';
+import { AdminModule } from './admin/admin.module';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 import { DynamicLoadComponentDirective } from './directives/common/dynamic-load-component.directive';
+import { HttpErrorHandlerInterceptorService } from './services/common/http-error-handler-interceptor.service';
+import { LoginComponent } from './ui/components/login/login.component';
+import { UiModule } from './ui/ui.module';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, DynamicLoadComponentDirective],

@@ -1,0 +1,20 @@
+<div class="d-flex align-items-center">
+  <h1 mat-dialog-title matBadge="4" class="me-4" matBadgeOverlap="false">
+    <b>{{ data.name }}</b>
+  </h1>
+  <h1>Rol Atama</h1>
+</div>
+<div mat-dialog-content>
+  <p>İlgili sayfaya aşağıdan rolleri atayabilirsiniz.</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="close()">İptal</button>
+  <button
+    mat-button
+    [mat-dialog-close]="data"
+    cdkFocusInitial
+    (click)="addRole()"
+  >
+    Ekle
+  </button>
+</div>

@@ -20,6 +20,13 @@ export const basketController = {
   },
 };
 
+export const applicationServicesController = {
+  controllerName: 'applicationServices',
+  actions: {
+    getAuthorizeDefinitionEndpoints: '',
+  },
+};
+
 export const filesController = {
   controllerName: 'files',
   actions: {
