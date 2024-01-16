@@ -10,6 +10,17 @@ export const authController = {
   },
 };
 
+export const roleController = {
+  controllerName: 'roles',
+  actions: {
+    getRoles: '',
+    getRoleById: '',
+    create: '',
+    update: '',
+    delete: '',    
+  },
+};
+
 export const basketController = {
   controllerName: 'baskets',
   actions: {

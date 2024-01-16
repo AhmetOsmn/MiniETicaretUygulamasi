@@ -48,6 +48,7 @@ export class DeleteDirective {
 
   @Input() id: string;
   @Input() controller: string;
+  @Input() entity: string | null;
   @Output() callback: EventEmitter<any> = new EventEmitter();
 
   @HostListener('click')
@@ -76,7 +77,7 @@ export class DeleteDirective {
                 700,
                 () => {
                   this.callback.emit();
-                  this.alertifyService.message('Ürün başarıyla silindi.', {
+                  this.alertifyService.message(`${this.entity} başarıyla silindi.`, {
                     dismisssOthers: true,
                     messageType: MessageType.Success,
                     position: Position.TopRight,
@@ -86,7 +87,7 @@ export class DeleteDirective {
             },
             (errorResponse: HttpErrorResponse) => {
               this.spinner.hide(SpinnerType.BallAtom);
-              this.alertifyService.message('Ürün silinemedi.', {
+              this.alertifyService.message(`${this.entity} silinemedi.`, {
                 dismisssOthers: true,
                 messageType: MessageType.Error,
                 position: Position.TopRight,

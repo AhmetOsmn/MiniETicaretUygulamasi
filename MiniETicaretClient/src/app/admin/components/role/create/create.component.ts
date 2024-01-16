@@ -1,13 +1,12 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
-import { Create_Product } from 'src/app/contracts/create_product';
 import {
   AlertifyService,
   MessageType,
   Position,
 } from 'src/app/services/admin/alertify.service';
-import { ProductService } from 'src/app/services/common/models/product.service';
+import { RoleService } from 'src/app/services/common/models/role.service';
 
 @Component({
   selector: 'app-create',
@@ -17,7 +16,7 @@ import { ProductService } from 'src/app/services/common/models/product.service';
 export class CreateComponent extends BaseComponent implements OnInit {
   constructor(
     spinner: NgxSpinnerService,
-    private productService: ProductService,
+    private roleService: RoleService,
     private alertify: AlertifyService
   ) {
     super(spinner);
@@ -25,29 +24,21 @@ export class CreateComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  @Output() createdProduct: EventEmitter<Create_Product> = new EventEmitter();
+  @Output() createdRole: EventEmitter<string> = new EventEmitter();
 
-  create(
-    name: HTMLInputElement,
-    stock: HTMLInputElement,
-    price: HTMLInputElement
-  ) {
+  create(name: HTMLInputElement) {
     this.showSpinner(SpinnerType.BallAtom);
-    const create_product: Create_Product = new Create_Product();
-    create_product.name = name.value;
-    create_product.stock = parseInt(stock.value);
-    create_product.price = parseFloat(price.value);
 
-    this.productService.create(
-      create_product,
+    this.roleService.create(
+      name.value,
       () => {
         this.hideSpinner(SpinnerType.BallAtom);
-        this.alertify.message('Ürün başarıyla eklendi.', {
+        this.alertify.message('Rol başarıyla eklendi.', {
           dismisssOthers: true,
           messageType: MessageType.Success,
           position: Position.TopRight,
         });
-        this.createdProduct.emit(create_product);
+        this.createdRole.emit(name.value);
       },
       (errorMessage) => {
         this.alertify.message(errorMessage, {
