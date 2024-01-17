@@ -1,5 +1,11 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatSelectionList } from '@angular/material/list';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { SpinnerType } from 'src/app/base/base.component';
+import { ListRole } from 'src/app/contracts/role/List_Role';
+import { AuthorizationEndpointService } from 'src/app/services/common/models/authorization-endpoint.service';
+import { RoleService } from 'src/app/services/common/models/role.service';
 import { BaseDialog } from '../base/base-dialog';
 
 @Component({
@@ -7,16 +13,54 @@ import { BaseDialog } from '../base/base-dialog';
   templateUrl: './authorize-menu-dialog.component.html',
   styleUrls: ['./authorize-menu-dialog.component.scss'],
 })
-export class AuthorizeMenuDialogComponent extends BaseDialog<AuthorizeMenuDialogComponent> {
+export class AuthorizeMenuDialogComponent
+  extends BaseDialog<AuthorizeMenuDialogComponent>
+  implements OnInit
+{
   constructor(
     dialogRef: MatDialogRef<AuthorizeMenuDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: any
+    public data: any,
+    private roleService: RoleService,
+    private authorizationEndpointService: AuthorizationEndpointService,
+    private spinnerService: NgxSpinnerService
   ) {
     super(dialogRef);
   }
+  async ngOnInit(): Promise<void> {
+    this.assignedRoles = await this.authorizationEndpointService.getRolesToEndpoint(this.data.code, this.data.menuName);    
+    
+    this.response = await this.roleService.getRoles(-1, -1);
 
-  addRole() {}
+    this.listRoles = this.response.roles.map((role) => {
+      return {
+        name: role.name,
+        selected: this.assignedRoles.includes(role.name),
+      };
+    });
+  }
+
+  assignedRoles : string[] = []
+  listRoles: {name: string, selected: boolean}[] = [] 
+
+  response: { roles: ListRole[]; totalCount: number };
+
+  assignRoles(rolesComponent: MatSelectionList) {
+    const roles: string[] = rolesComponent.selectedOptions.selected.map(
+      (x) => x._text.nativeElement.innerText
+    );
+    this.spinnerService.show(SpinnerType.BallAtom);
+
+    this.authorizationEndpointService.assignRoleEndpoint(
+      roles,
+      this.data.code,
+      this.data.menuName,
+      () => {
+        this.spinnerService.hide(SpinnerType.BallAtom);
+      },
+      (error) => {}
+    );
+  }
 }
 
 export enum AuthorizeMenuState {

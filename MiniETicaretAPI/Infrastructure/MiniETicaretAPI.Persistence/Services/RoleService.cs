@@ -35,7 +35,15 @@ namespace MiniETicaretAPI.Persistence.Services
         public (object, int) GetRoles(int page, int size)
         {
             IQueryable<AppRole> query = _roleManager.Roles;
-            return (query.Skip(page * size).Take(size).Select(role => new { role.Id, role.Name }), query.Count());
+            IQueryable<AppRole>? _query = null;
+
+
+            if(page != -1 && size != -1)
+                _query = query.Skip(page * size).Take(size);            
+            else
+                _query = query;            
+
+            return (_query.Select(role => new { role.Id, role.Name }), query.Count());
         }
 
         public async Task<bool> UpdateRoleAsync(string id, string name)

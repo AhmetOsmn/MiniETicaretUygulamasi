@@ -4,6 +4,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FileUploadModule } from '../services/common/file-upload/file-upload.module';
@@ -14,6 +15,7 @@ import { CompleteShoppingDialogComponent } from './complete-shopping-dialog/comp
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { OrderDetailDialogComponent } from './order-detail-dialog/order-detail-dialog.component';
 import { SelectProductImageDialogComponent } from './select-product-image-dialog/select-product-image-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import { SelectProductImageDialogComponent } from './select-product-image-dialog
     MatBadgeModule,
     CommonModule,
     FileUploadModule,
+    MatListModule
   ],
 })
 export class DialogModule {}

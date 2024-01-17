@@ -17,7 +17,7 @@ export const roleController = {
     getRoleById: '',
     create: '',
     update: '',
-    delete: '',    
+    delete: '',
   },
 };
 
@@ -73,5 +73,13 @@ export const ordersController = {
   actions: {
     createOrder: '',
     completeOrder: 'complete-order',
+  },
+};
+
+export const authorizationEndpointsController = {
+  controllerName: 'authorizationEndpoints',
+  actions: {
+    AssignRole: '',
+    GetRolesToEndpoint: 'get-roles-to-endpoint',
   },
 };
