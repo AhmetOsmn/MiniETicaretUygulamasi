@@ -15,6 +15,7 @@ import { CompleteShoppingDialogComponent } from './complete-shopping-dialog/comp
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { OrderDetailDialogComponent } from './order-detail-dialog/order-detail-dialog.component';
 import { SelectProductImageDialogComponent } from './select-product-image-dialog/select-product-image-dialog.component';
+import { AuthorizeUserDialogComponent } from './authorize-user-dialog/authorize-user-dialog.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { SelectProductImageDialogComponent } from './select-product-image-dialog
     OrderDetailDialogComponent,
     CompleteOrderDialogComponent,
     AuthorizeMenuDialogComponent,
+    AuthorizeUserDialogComponent,
   ],
   imports: [
     MatDialogModule,
