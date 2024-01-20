@@ -8,6 +8,7 @@ using MiniETicaretAPI.Application.Features.Commands.AppUser.AssignRoleToUser;
 using MiniETicaretAPI.Application.Features.Commands.AppUser.CreateUser;
 using MiniETicaretAPI.Application.Features.Commands.AppUser.UpdatePassword;
 using MiniETicaretAPI.Application.Features.Queries.AppUser.GetAllUsers;
+using MiniETicaretAPI.Application.Features.Queries.AppUser.GetRolesToUser;
 
 namespace MiniETicaretAPI.API.Controllers
 {
@@ -42,6 +43,15 @@ namespace MiniETicaretAPI.API.Controllers
         public async Task<IActionResult> GetAllUsers([FromQuery] GetAllUsersQueryRequest getAllUsersQueryRequest)
         {
             GetAllUsersQueryResponse response = await _mediator.Send(getAllUsersQueryRequest);
+            return Ok(response);
+        }
+
+        [HttpGet("get-roles-to-user/{userId}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.User, Definition = "Get Roles To User", Action = ActionType.Reading)]
+        public async Task<IActionResult> GetRolesToUser([FromRoute] GetRolesToUserQueryRequest getRolesToUserQueryRequest)
+        {
+            GetRolesToUserQueryResponse response = await _mediator.Send(getRolesToUserQueryRequest);
             return Ok(response);
         }
 

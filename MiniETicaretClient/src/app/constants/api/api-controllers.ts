@@ -66,6 +66,7 @@ export const usersController = {
     createUser: '',
     updatePassword: 'update-password',
     assignRoleToUser: 'assign-role-to-user',
+    getRolesToUser: 'get-roles-to-user',
   },
 };
 

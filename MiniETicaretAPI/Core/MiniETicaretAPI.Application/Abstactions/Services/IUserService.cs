@@ -10,6 +10,7 @@ namespace MiniETicaretAPI.Application.Abstactions.Services
         Task UpdatePasswordAsync(string userId, string newPassword ,string resetToken);
         Task<List<ListUser>> GetAllUsersAsync(int page, int size);
         Task AssignRoleToUserAsync(string userId, string[] roles);
+        Task<string[]> GetRolesToUserAsync(string userId);
         int TotalUsersCount { get; }
     }
 }

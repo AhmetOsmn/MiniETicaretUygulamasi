@@ -64,6 +64,18 @@ namespace MiniETicaretAPI.Persistence.Services
             }).ToListAsync();
         }
 
+        public async Task<string[]> GetRolesToUserAsync(string userId)
+        {
+            AppUser user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                var userRoles = await _userManager.GetRolesAsync(user);
+                return userRoles.ToArray();
+            }
+            
+            return Array.Empty<string>();
+        }
+
         public async Task UpdatePasswordAsync(string userId, string newPassword, string resetToken)
         {
             AppUser user = await _userManager.FindByIdAsync(userId);

@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { ListUser } from 'src/app/contracts/users/list_user';
+import { AuthorizeUserDialogComponent } from 'src/app/dialogs/authorize-user-dialog/authorize-user-dialog.component';
 import { AlertifyService, MessageType, Position } from 'src/app/services/admin/alertify.service';
 import { DialogService } from 'src/app/services/common/dialog.service';
 import { UserService } from 'src/app/services/common/models/user.service';
@@ -52,8 +53,7 @@ export class ListComponent extends BaseComponent implements OnInit {
         })
     );
 
-    this.dataSource = new MatTableDataSource<ListUser>(allUsers.listUsers);
-    console.log(this.dataSource);
+    this.dataSource = new MatTableDataSource<ListUser>(allUsers.listUsers);    
     this.paginator.length = allUsers.totalCount;
   }
 
@@ -66,6 +66,18 @@ export class ListComponent extends BaseComponent implements OnInit {
   }
 
   assignRole(id: string){
-    alert(id);
+    this.dialogService.openDialog({
+      componentType: AuthorizeUserDialogComponent,
+      data: id,
+      options: {
+        width: '750px',
+      },
+      afterClosed: () => {
+        this.alertify.message("Roller güncellendi.",{
+          messageType: MessageType.Success,
+          position: Position.TopRight,
+        })
+      }
+    });
   }
 }
