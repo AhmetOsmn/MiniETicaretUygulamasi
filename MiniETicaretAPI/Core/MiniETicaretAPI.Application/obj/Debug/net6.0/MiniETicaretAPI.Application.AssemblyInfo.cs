@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MiniETicaretAPI.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2ea40be20af0c5015da2bf304f0e8f09a30ce8e0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a747f2baf23036875bc944ccf046cf06b123bfe5")]
 [assembly: System.Reflection.AssemblyProductAttribute("MiniETicaretAPI.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MiniETicaretAPI.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

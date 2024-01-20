@@ -4,6 +4,7 @@ using MiniETicaretAPI.Application.Abstactions.Services;
 using MiniETicaretAPI.Application.Dtos.User;
 using MiniETicaretAPI.Application.Exceptions;
 using MiniETicaretAPI.Application.Helpers;
+using MiniETicaretAPI.Application.Repositories;
 using MiniETicaretAPI.Domain.Entities.Identity;
 
 namespace MiniETicaretAPI.Persistence.Services
@@ -11,10 +12,12 @@ namespace MiniETicaretAPI.Persistence.Services
     public class UserService : IUserService
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly IEndpointReadRepository _endpointReadRepository;
 
-        public UserService(UserManager<AppUser> userManager)
+        public UserService(UserManager<AppUser> userManager, IEndpointReadRepository endpointReadRepository)
         {
             _userManager = userManager;
+            _endpointReadRepository = endpointReadRepository;
         }
 
         public int TotalUsersCount => _userManager.Users.Count();
@@ -64,9 +67,13 @@ namespace MiniETicaretAPI.Persistence.Services
             }).ToListAsync();
         }
 
-        public async Task<string[]> GetRolesToUserAsync(string userId)
+        public async Task<string[]> GetRolesToUserAsync(string userIdOrUserName)
         {
-            AppUser user = await _userManager.FindByIdAsync(userId);
+            AppUser user = await _userManager.FindByIdAsync(userIdOrUserName);
+            
+            if(user == null)
+                user = await _userManager.FindByNameAsync(userIdOrUserName);
+
             if (user != null)
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
@@ -74,6 +81,32 @@ namespace MiniETicaretAPI.Persistence.Services
             }
             
             return Array.Empty<string>();
+        }
+
+        public async Task<bool> HasRolePermissionToEndpointAsync(string userName, string code)
+        {
+            string[] userRoles = await GetRolesToUserAsync(userName);
+            
+            if (!userRoles.Any()) return false;
+
+            Domain.Entities.Endpoint? endpoint = await _endpointReadRepository.Table.Include(e => e.Roles).FirstOrDefaultAsync(x => x.Code == code);
+
+            if (endpoint == null) return false;
+
+            var hasRole = false;
+
+            var endpointRoles = endpoint.Roles.Select(r => r.Name);
+
+            foreach (var role in userRoles)
+            {
+                if (endpointRoles.Contains(role))
+                {
+                    hasRole = true;
+                    break;
+                }
+            }
+
+            return hasRole;
         }
 
         public async Task UpdatePasswordAsync(string userId, string newPassword, string resetToken)

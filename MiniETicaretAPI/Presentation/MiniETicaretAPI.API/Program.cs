@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MiniETicaretAPI.API.Configurations.CustomColumnWriters;
 using MiniETicaretAPI.API.Extensions;
+using MiniETicaretAPI.API.Filters;
 using MiniETicaretAPI.Application;
 using MiniETicaretAPI.Application.Validators.Products;
 using MiniETicaretAPI.Infrastructure;
@@ -64,7 +65,11 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
     policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials()
 ));
 
-builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>())
+builder.Services.AddControllers(options =>
+    {
+        options.Filters.Add<ValidationFilter>();
+        options.Filters.Add<RolePermissionFilter>();
+    })
     .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<CreateProductValidator>())
     .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
 

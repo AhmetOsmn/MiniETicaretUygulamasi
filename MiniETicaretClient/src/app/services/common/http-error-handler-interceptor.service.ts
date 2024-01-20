@@ -6,16 +6,16 @@ import {
   HttpStatusCode,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable, catchError, of } from 'rxjs';
+import { SpinnerType } from 'src/app/base/base.component';
 import {
   CustomToastrService,
   ToastrMessageType,
   ToastrPosition,
 } from '../ui/custom-toastr.service';
 import { UserAuthService } from './models/user-auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { SpinnerType } from 'src/app/base/base.component';
 
 @Injectable({
   providedIn: 'root',
@@ -65,7 +65,16 @@ export class HttpErrorHandlerInterceptorService implements HttpInterceptor {
                   }
                 }
               )
-              .then((data) => {});
+              .then((data) => {
+                this.toastrService.message(
+                  'Bu işlemi yapmaya yetkiniz bulunmamaktadır!',
+                  'Yetkisiz İşlem',
+                  {
+                    messageType: ToastrMessageType.Warning,
+                    position: ToastrPosition.BottomFullWidth,
+                  }
+                );
+              });
             break;
           case HttpStatusCode.InternalServerError:
             this.toastrService.message(
