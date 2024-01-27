@@ -16,6 +16,7 @@ import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { OrderDetailDialogComponent } from './order-detail-dialog/order-detail-dialog.component';
 import { SelectProductImageDialogComponent } from './select-product-image-dialog/select-product-image-dialog.component';
 import { AuthorizeUserDialogComponent } from './authorize-user-dialog/authorize-user-dialog.component';
+import { QrcodeDialogComponent } from './qrcode-dialog/qrcode-dialog.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { AuthorizeUserDialogComponent } from './authorize-user-dialog/authorize-
     CompleteOrderDialogComponent,
     AuthorizeMenuDialogComponent,
     AuthorizeUserDialogComponent,
+    QrcodeDialogComponent,
   ],
   imports: [
     MatDialogModule,

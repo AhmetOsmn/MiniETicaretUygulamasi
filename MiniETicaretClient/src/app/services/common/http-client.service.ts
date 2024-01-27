@@ -1,5 +1,5 @@
-import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -28,10 +28,15 @@ export class HttpClientService {
     if (requestParameters.fullEndPoint) {
       url = requestParameters.fullEndPoint;
     } else {
-      url = `${this.url(requestParameters)}${id ? `/${id}` : ''}${requestParameters.queryString ? `?${requestParameters.queryString}` : ''}`;
+      url = `${this.url(requestParameters)}${id ? `/${id}` : ''}${
+        requestParameters.queryString ? `?${requestParameters.queryString}` : ''
+      }`;
     }
 
-    return this.httpClient.get<T>(url, { headers: requestParameters.headers });
+    return this.httpClient.get<T>(url, {
+      headers: requestParameters.headers,
+      responseType: requestParameters.responseType as 'json',
+    });
   }
 
   post<T>(
@@ -43,11 +48,14 @@ export class HttpClientService {
     if (requestParameters.fullEndPoint) {
       url = requestParameters.fullEndPoint;
     } else {
-      url = `${this.url(requestParameters)}${requestParameters.queryString ? `?${requestParameters.queryString}` : ''}`;
+      url = `${this.url(requestParameters)}${
+        requestParameters.queryString ? `?${requestParameters.queryString}` : ''
+      }`;
     }
 
     return this.httpClient.post<T>(url, body, {
       headers: requestParameters.headers,
+      responseType: requestParameters.responseType as 'json',
     });
   }
 
@@ -60,11 +68,14 @@ export class HttpClientService {
     if (requestParameters.fullEndPoint) {
       url = requestParameters.fullEndPoint;
     } else {
-      url = `${this.url(requestParameters)}${requestParameters.queryString ? `?${requestParameters.queryString}` : ''}`;
+      url = `${this.url(requestParameters)}${
+        requestParameters.queryString ? `?${requestParameters.queryString}` : ''
+      }`;
     }
 
     return this.httpClient.put<T>(url, body, {
       headers: requestParameters.headers,
+      responseType: requestParameters.responseType as 'json',
     });
   }
 
@@ -72,16 +83,20 @@ export class HttpClientService {
     requestParameters: Partial<RequestParameters>,
     id: string
   ): Observable<T> {
-    let url: string = "";
+    let url: string = '';
 
     if (requestParameters.fullEndPoint) {
       url = requestParameters.fullEndPoint;
-    } 
-    else {
-      url = `${this.url(requestParameters)}/${id}${requestParameters.queryString ? `?${requestParameters.queryString}` : ''}`;
+    } else {
+      url = `${this.url(requestParameters)}/${id}${
+        requestParameters.queryString ? `?${requestParameters.queryString}` : ''
+      }`;
     }
 
-    return this.httpClient.delete<T>(url, {headers: requestParameters.headers});
+    return this.httpClient.delete<T>(url, {
+      headers: requestParameters.headers,
+      responseType: requestParameters.responseType as 'json',
+    });
   }
 }
 
@@ -93,4 +108,6 @@ export class RequestParameters {
   headers?: HttpHeaders;
   baseUrl?: string;
   fullEndPoint?: string;
+
+  responseType?: string = 'json';
 }

@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { AfterViewInit, ViewChild } from '@angular/core';
-import { List_Product } from 'src/app/contracts/list_product';
-import { ProductService } from 'src/app/services/common/models/product.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
+import { List_Product } from 'src/app/contracts/list_product';
+import { QrcodeDialogComponent } from 'src/app/dialogs/qrcode-dialog/qrcode-dialog.component';
+import { SelectProductImageDialogComponent } from 'src/app/dialogs/select-product-image-dialog/select-product-image-dialog.component';
 import {
   AlertifyService,
   MessageType,
   Position,
 } from 'src/app/services/admin/alertify.service';
 import { DialogService } from 'src/app/services/common/dialog.service';
-import { SelectProductImageDialogComponent } from 'src/app/dialogs/select-product-image-dialog/select-product-image-dialog.component';
+import { ProductService } from 'src/app/services/common/models/product.service';
 
 declare var $: any;
 
@@ -38,6 +38,7 @@ export class ListComponent extends BaseComponent implements OnInit {
     'createdDate',
     'updatedDate',
     'photos',
+    'qrcode',
     'edit',
     'delete'
   ];
@@ -88,6 +89,14 @@ export class ListComponent extends BaseComponent implements OnInit {
       options: {
         width: "1400px"
       }
+    })
+  }
+
+  showQrCode(id: string){
+    this.dialogService.openDialog({
+      componentType: QrcodeDialogComponent,
+      data: id,
+      afterClosed: () => {}
     })
   }
 }

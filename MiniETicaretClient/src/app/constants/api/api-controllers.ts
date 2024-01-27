@@ -57,6 +57,7 @@ export const productsController = {
     getProductImages: 'GetProductImages',
     deleteProductImage: 'DeleteProductImage',
     changeShowcase: 'ChangeShowcase',
+    generateQrCode: 'GenerateQrCode',
   },
 };
 
