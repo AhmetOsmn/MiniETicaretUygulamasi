@@ -1,12 +1,11 @@
-import { query } from '@angular/animations';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom, Observable } from 'rxjs';
+import { productsController } from 'src/app/constants/api/api-controllers';
 import { Create_Product } from 'src/app/contracts/create_product';
 import { List_Product } from 'src/app/contracts/list_product';
-import { HttpClientService } from '../http-client.service';
 import { List_Product_Image } from 'src/app/contracts/list_product_image';
-import { productsController } from 'src/app/constants/api/api-controllers';
+import { HttpClientService } from '../http-client.service';
 
 @Injectable({
   providedIn: 'root',
@@ -137,6 +136,16 @@ export class ProductService {
     );
 
     await firstValueFrom(changeImageShowcaseObservable);
+    successCallBack();
+  }
+
+  async updateStockWithQrCode(productId: string, stock: number, successCallBack?: () => void): Promise<void> {
+    const observable = this.httpClientService.put({
+      controller: productsController.controllerName,
+      action: productsController.actions.updateStockWithQrCode      
+    },{productId, stock});
+
+    await firstValueFrom(observable);
     successCallBack();
   }
 }

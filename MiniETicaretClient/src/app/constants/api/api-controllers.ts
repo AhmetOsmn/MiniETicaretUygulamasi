@@ -58,6 +58,7 @@ export const productsController = {
     deleteProductImage: 'DeleteProductImage',
     changeShowcase: 'ChangeShowcase',
     generateQrCode: 'GenerateQrCode',
+    updateStockWithQrCode: 'UpdateStockWithQrCode',
   },
 };
 
